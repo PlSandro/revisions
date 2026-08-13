@@ -47,6 +47,10 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 .linkbtn{background:none;border:0;color:var(--faint);font-size:11px;text-decoration:underline;
   padding:0;margin-top:9px}
 .linkbtn:hover{color:var(--bad)}
+.home-btn{display:inline-flex;align-items:center;font-family:var(--mono);font-size:10.5px;
+  color:var(--faint);text-decoration:none;text-transform:uppercase;letter-spacing:.15em;
+  transition:color .15s}
+.home-btn:hover{color:var(--acc)}
 
 .hero{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:22px}
 .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
@@ -481,7 +485,8 @@ var DRILLS=[
 var VIEW="ch0", cur=0;
 function nav(){
   var r=document.querySelector(".rail");
-  var h='<div class="brand">IAML<small>rattrapage · 30 min</small></div>';
+  var h='<a href="index.html" class="home-btn">← Index</a>';
+  h+='<div class="brand">IAML<small>rattrapage · 30 min</small></div>';
   h+='<div><div class="navsec">Réviser</div><div class="nav" id="navch"></div></div>';
   h+='<div><div class="navsec">S\'entraîner</div><div class="nav" id="navtool"></div></div>';
   h+='<div class="railfoot"><div class="k"></div><button class="linkbtn">Tout réinitialiser</button></div>';
