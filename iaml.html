@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IAML — révision pour le rattrapage</title>
+<meta name="description" content="Révision ciblée IAML : 25 fiches, 50 questions dont 36 tombées à l'examen, calculs minutés, examen blanc de 30 minutes et fiche A4.">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#0B0F14; --card:#131A23; --card2:#18212C; --line:#26323F;
+  --ink:#ECEFF3; --dim:#93A0AF; --faint:#5D6C7C;
+  --acc:#5BC8AF; --acc2:#7FB2F0; --warn:#F2A65A; --bad:#F0736A; --good:#7ED9A0; --purple:#B79CF0;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
+}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0;letter-spacing:.01em}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35em;border-radius:3px;color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+.shell{display:flex;min-height:100vh}
+.rail{width:252px;flex:0 0 252px;background:var(--card);border-right:1px solid var(--line);
+  position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 16px 26px;display:flex;
+  flex-direction:column;gap:18px}
+.stage{flex:1;min-width:0;padding:30px 38px 90px;max-width:1020px}
+.brand{font-family:var(--serif);font-size:25px;letter-spacing:.13em;line-height:1}
+.brand small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--faint);margin-top:6px}
+.navsec{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint);margin:6px 0 6px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;gap:9px;align-items:baseline;width:100%;text-align:left;background:none;
+  border:0;border-radius:5px;padding:7px 9px;color:var(--dim);font-size:13.5px;transition:.15s}
+.nav button:hover{background:var(--card2);color:var(--ink)}
+.nav button[aria-current="true"]{background:var(--card2);color:var(--ink)}
+.nav button[aria-current="true"] .n{color:var(--acc)}
+.n{font-family:var(--mono);font-size:11px;color:var(--faint);flex:0 0 auto}
+.nav .sc{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--faint)}
+.railfoot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
+.railfoot .k{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.railfoot .k b{color:var(--acc)}
+.linkbtn{background:none;border:0;color:var(--faint);font-size:11px;text-decoration:underline;
+  padding:0;margin-top:9px}
+.linkbtn:hover{color:var(--bad)}
+
+.hero{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:22px}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--acc);margin-bottom:10px}
+.hero h1{font-size:36px;line-height:1.1;margin-bottom:7px}
+.hero .sub{color:var(--acc2);font-size:14px;margin:0 0 13px}
+.hero .blurb{color:var(--dim);font-size:14.5px;max-width:60ch;margin:0}
+
+.tabs{display:flex;gap:3px;margin:0 0 24px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--faint);
+  padding:9px 14px;font-size:13px;margin-bottom:-1px}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acc)}
+.tabs .c{font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:5px}
+.panel[hidden]{display:none}
+
+/* fiches */
+.notions{display:grid;gap:15px;max-width:800px}
+.nsec{margin:24px 0 2px}
+.notions>.nsec:first-child{margin-top:0}
+.nsec h2{font-size:22px;margin-bottom:6px}
+.nsec p{margin:0;color:var(--faint);font-size:14px;max-width:62ch}
+.nsec .rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:14px}
+.notion{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:17px 19px;
+  border-left:3px solid var(--faint)}
+.notion h3{font-family:var(--sans);font-size:15px;font-weight:650;margin-bottom:8px}
+.notion .kind{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  display:block;margin-bottom:6px}
+.notion .lead{font-family:var(--serif);font-size:17px;line-height:1.45;color:var(--ink);
+  margin:0 0 12px;max-width:56ch}
+.nbody{color:var(--dim);font-size:14.2px}
+.nbody p{margin:0 0 10px}.nbody p:last-child{margin-bottom:0}
+.nbody strong{color:var(--ink);font-weight:600}.nbody em{color:var(--ink)}
+.notion.def{border-left-color:var(--acc)}.notion.def .kind{color:var(--acc)}
+.notion.thm{border-left-color:var(--acc2)}.notion.thm .kind{color:var(--acc2)}
+.notion.algo{border-left-color:var(--good)}.notion.algo .kind{color:var(--good)}
+.notion.warn{border-left-color:var(--warn)}.notion.warn .kind{color:var(--warn)}
+.formula{margin:13px 0;padding:12px 15px;background:#0A0E14;border:1px solid var(--line);
+  border-radius:6px;text-align:center;font-family:var(--serif);font-size:16px;color:var(--acc);
+  line-height:1.7;overflow-x:auto}
+.nex{margin:13px 0 0;background:#080C11;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.nex .lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--faint);padding:6px 13px;border-bottom:1px solid var(--line);background:#0D141C}
+.nex pre{margin:0;font-family:var(--mono);font-size:12.3px;line-height:1.6;color:#C2CDDA;
+  padding:12px 15px;overflow-x:auto;white-space:pre}
+.nfig{margin:13px 0 0;display:flex;justify-content:center;background:#080C11;
+  border:1px solid var(--line);border-radius:6px;padding:13px 10px}
+.nfig svg{width:100%;max-width:430px;height:auto}
+.see{margin-top:13px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.see .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+.see button{background:none;border:1px solid var(--line);border-radius:99px;padding:3px 10px;
+  font-family:var(--mono);font-size:10.5px;color:var(--acc2)}
+.see button:hover{border-color:var(--acc2);background:#101C29}
+
+/* questions */
+.qwrap{display:grid;gap:12px;max-width:790px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.q.done{border-color:#2B4A3C}
+.qh{display:flex;gap:10px;align-items:baseline;margin-bottom:6px}
+.qn{font-family:var(--mono);font-size:10.5px;color:var(--faint);flex:0 0 auto}
+.tagx{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--faint);flex:0 0 auto}
+.tagx.ex{border-color:#5A4A2A;color:var(--warn)}
+.qt{font-size:14.5px;font-weight:500;margin-bottom:11px}
+.multi-hint{font-family:var(--mono);font-size:10.5px;color:var(--warn);margin-bottom:9px}
+.ch{display:grid;gap:6px}
+.ch button{text-align:left;background:var(--card2);border:1px solid var(--line);border-radius:5px;
+  padding:9px 12px;color:var(--dim);font-size:13.5px;transition:.14s;display:flex;gap:9px}
+.ch button:hover:not(:disabled){border-color:var(--faint);color:var(--ink)}
+.ch button .bx{font-family:var(--mono);flex:0 0 auto;color:var(--faint)}
+.ch button.sel{border-color:var(--acc2);color:var(--ink)}
+.ch button.sel .bx{color:var(--acc2)}
+.ch button.good{border-color:var(--good);color:var(--good);background:#0D1F16}
+.ch button.good .bx{color:var(--good)}
+.ch button.bad{border-color:var(--bad);color:var(--bad);background:#1F1113}
+.ch button.bad .bx{color:var(--bad)}
+.ch button.miss{border-color:var(--warn);background:#1C1509}
+.ch button.miss .bx{color:var(--warn)}
+.ch button:disabled{cursor:default}
+.numin{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.numin input{background:#080C11;border:1px solid var(--line);border-radius:5px;padding:8px 12px;
+  color:var(--ink);font-family:var(--mono);font-size:14px;width:150px}
+.numin input:focus{outline:none;border-color:var(--acc)}
+.act{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card2);color:var(--dim);border-radius:5px;
+  padding:7px 14px;font-size:13px;transition:.14s}
+.btn:hover:not(:disabled){color:var(--ink);border-color:var(--faint)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.p{border-color:var(--acc);color:var(--acc)}
+.btn.p:hover:not(:disabled){background:#0C201B}
+.why{margin-top:11px;padding:10px 13px;background:#080C11;border-left:2px solid var(--acc2);
+  border-radius:4px;font-size:13.2px;color:var(--dim)}
+.why b{color:var(--acc2)}
+.score{font-family:var(--mono);font-size:11.5px;margin-top:9px}
+.score.ok{color:var(--good)}.score.part{color:var(--warn)}.score.no{color:var(--bad)}
+.bar{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:16px;
+  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px}
+.bar b{color:var(--acc)}
+
+/* drills */
+.dgrid{display:grid;gap:12px;max-width:790px}
+.drill{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.drill h3{font-family:var(--sans);font-size:14.5px;font-weight:650;margin-bottom:4px}
+.drill .d{color:var(--faint);font-size:12.5px;margin-bottom:12px}
+.dstate{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
+.dstate .ok{color:var(--good)}.dstate .no{color:var(--bad)}
+.dq{background:#080C11;border:1px solid var(--line);border-radius:6px;padding:12px 15px;
+  font-family:var(--mono);font-size:12.5px;color:#C2CDDA;white-space:pre;overflow-x:auto;margin-bottom:11px}
+.streak{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:auto}
+
+/* exam mode */
+.exambox{max-width:800px}
+.timer{position:sticky;top:0;z-index:20;background:var(--card);border:1px solid var(--line);
+  border-radius:8px;padding:11px 16px;display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.timer .t{font-family:var(--mono);font-size:22px;color:var(--acc);font-weight:600}
+.timer .t.low{color:var(--bad)}
+.timer .prog{flex:1;height:5px;background:var(--card2);border-radius:99px;overflow:hidden}
+.timer .prog i{display:block;height:100%;background:var(--acc);transition:width .4s linear}
+.timer .meta{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.result{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
+.result .big{font-family:var(--serif);font-size:44px;color:var(--acc);line-height:1}
+.result .big small{font-size:18px;color:var(--faint)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}
+.tbl th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line);padding:6px 8px;font-weight:500}
+.tbl td{padding:6px 8px;border-bottom:1px solid #1A222C;color:var(--dim)}
+.tbl td.num{font-family:var(--mono);text-align:right}
+.tbl tr:last-child td{border-bottom:0}
+.pill{display:inline-block;height:6px;border-radius:99px;background:var(--acc);vertical-align:middle}
+.pill.lo{background:var(--bad)}.pill.mid{background:var(--warn)}
+
+/* bilan */
+.lesson{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);
+  border-radius:8px;padding:16px 19px;margin-bottom:12px}
+.lesson h3{font-family:var(--sans);font-size:14.5px;font-weight:650;margin-bottom:7px}
+.lesson p{margin:0;color:var(--dim);font-size:14px}
+.lesson .gain{font-family:var(--mono);font-size:11px;color:var(--good);margin-top:9px}
+
+/* fiche A4 */
+.a4wrap{max-width:900px}
+.a4{background:#fff;color:#111;border-radius:4px;padding:14mm 12mm;font-size:8.4px;line-height:1.32;
+  font-family:var(--sans);column-count:2;column-gap:7mm;column-rule:1px solid #ccc}
+.a4 h2{font-size:11px;font-family:var(--sans);font-weight:800;margin:0 0 3px;
+  border-bottom:1.5px solid #111;padding-bottom:1px;break-after:avoid}
+.a4 h3{font-size:8.8px;font-family:var(--sans);font-weight:700;margin:6px 0 2px;break-after:avoid}
+.a4 p,.a4 ul{margin:0 0 4px}
+.a4 ul{padding-left:11px}
+.a4 li{margin-bottom:1px}
+.a4 .box{border:1px solid #333;padding:3px 5px;margin:0 0 5px;break-inside:avoid;background:#f6f6f6}
+.a4 .f{font-family:var(--mono);font-size:8px;background:#eee;padding:1px 3px;border-radius:2px}
+.a4 table{width:100%;border-collapse:collapse;font-size:7.6px;margin:0 0 5px}
+.a4 th,.a4 td{border:1px solid #999;padding:1.5px 3px;text-align:left}
+.a4 th{background:#e8e8e8;font-weight:700}
+.a4 .warn{border-left:2.5px solid #111;padding-left:4px;margin:0 0 4px}
+@media print{
+  body{background:#fff}
+  .rail,.tabs,.hero,.noprint{display:none!important}
+  .stage{padding:0;max-width:none}
+  .a4{column-count:2;padding:0;border-radius:0;font-size:8.4px}
+  @page{size:A4 portrait;margin:10mm}
+}
+
+@media (max-width:900px){
+  .shell{flex-direction:column}
+  .rail{position:static;width:auto;flex:none;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .stage{padding:22px 18px 70px}
+  .hero h1{font-size:29px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px;padding-bottom:4px}
+  .nav button{white-space:nowrap;width:auto}
+  .nav .sc{display:none}
+  .railfoot{margin-top:12px}
+  .a4{column-count:1;font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail"></aside>
+  <main class="stage"></main>
+</div>
+<script id="iaml-data" type="application/json">{"chapters": [{"id": "c1", "num": 1, "title": "Fondations", "subtitle": "Types de problèmes, supervisé et non supervisé", "blurb": "Savoir nommer un problème avant de choisir un algorithme. C'est la première question de l'examen, et deux questions à choix multiples reposent entièrement dessus.", "notions": [{"section": "Trois familles de problèmes", "intro": "La toute première chose à faire face à un énoncé : regarder ce qu'on doit prédire."}, {"kind": "def", "title": "Régression, classification binaire, multiclasse", "lead": "Ce n'est pas la donnée d'entrée qui décide, c'est la nature de la sortie.", "body": "\u003cp\u003eSi la sortie est un \u003cstrong\u003enombre\u003c/strong\u003e sur une échelle continue, c'est une \u003cstrong\u003erégression\u003c/strong\u003e. Si c'est un choix entre \u003cstrong\u003edeux\u003c/strong\u003e étiquettes, c'est une \u003cstrong\u003eclassification binaire\u003c/strong\u003e. Si c'est un choix parmi \u003cstrong\u003etrois ou plus\u003c/strong\u003e, c'est une \u003cstrong\u003eclassification multiclasse\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eLe piège de l'examen : « prédire le nombre d'actions Microsoft échangées demain ». Des dizaines de millions d'actions, c'est un nombre, donc une régression — même si ce nombre est entier, et même si l'énoncé parle de bourse et donne envie de répondre « aucune de ces réponses ».\u003c/p\u003e", "ex": "prédire le nombre d'actions échangées demain     -\u003e RÉGRESSION\nprédire la météo : ensoleillé / nuageux / pluvieux -\u003e MULTICLASSE (3 catégories)\nprédire si un email est un spam ou non           -\u003e BINAIRE\nprédire le prix d'une maison                     -\u003e RÉGRESSION\nreconnaître un chiffre manuscrit (0 à 9)         -\u003e MULTICLASSE (10 classes)", "see": ["q1", "q2"]}, {"section": "Supervisé ou non supervisé", "intro": "Trois points perdus à l'examen sur ce seul critère. Il tient pourtant en un mot : y a-t-il des étiquettes ?"}, {"kind": "def", "title": "Le critère unique : les labels", "lead": "Si les données d'entraînement portent déjà la réponse, c'est supervisé. Sinon, non supervisé.", "body": "\u003cp\u003e\u003cstrong\u003eSupervisé\u003c/strong\u003e : on dispose de couples (x, y). On apprend à prédire y à partir de x. Régression et classification en font partie.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eNon supervisé\u003c/strong\u003e : on ne dispose que des x. On cherche une structure — des groupes, des axes, des anomalies. Clustering et réduction de dimension en font partie.\u003c/p\u003e\u003cp\u003eLe mot qui trahit un énoncé non supervisé : \u003cem\u003edécouvrir\u003c/em\u003e, \u003cem\u003eregrouper\u003c/em\u003e, \u003cem\u003edéterminer s'il existe des catégories\u003c/em\u003e. Le mot qui trahit un énoncé supervisé : \u003cem\u003eprédire\u003c/em\u003e, \u003cem\u003eà partir de données étiquetées\u003c/em\u003e, \u003cem\u003eapprendre à partir de 50 articles d'hommes et 50 de femmes\u003c/em\u003e.\u003c/p\u003e", "fig": "supervise", "ex": "SUPERVISÉ                              NON SUPERVISÉ\n-------------------------------------  -------------------------------------\nprédire la taille selon l'âge          découvrir des types de patients\nprédire le genre de l'auteur           trouver des sous-catégories de spam\n  (50 articles H + 50 articles F)      regrouper 1000 essais similaires\nclasser une page : enfants / adultes   détecter des anomalies réseau\nprédire les rendements agricoles         sans attaques étiquetées\n\npiège : « une grande collection d'emails CONNUS pour être des spams,\nafin de DÉCOUVRIR s'il existe des sous-catégories » -\u003e NON supervisé.\nIl n'y a qu'une seule classe, donc rien à prédire.", "see": ["q3", "q26"]}, {"kind": "warn", "title": "Quelle méthode est non supervisée ?", "lead": "PCA, K-means et DBSCAN le sont. LDA et NCA ne le sont pas.", "body": "\u003cp\u003eC'est une question de cours pure, tombée telle quelle. LDA (analyse discriminante linéaire) et NCA (analyse des composantes de voisinage) réduisent elles aussi la dimension, mais elles \u003cstrong\u003eutilisent les étiquettes\u003c/strong\u003e pour le faire : elles cherchent les axes qui séparent le mieux les classes connues. Elles sont donc supervisées.\u003c/p\u003e\u003cp\u003ePCA, au contraire, ne regarde que la variance des x, sans jamais consulter y.\u003c/p\u003e", "ex": "NON SUPERVISÉ : PCA, K-means, DBSCAN, Affinity Propagation\nSUPERVISÉ     : LDA, NCA, régression linéaire, régression logistique,\n                arbres de décision, SVM, perceptron", "see": ["q9"]}], "quiz": [{"id": "q1", "exam": true, "topic": "Types de problèmes", "type": "single", "q": "Vous voulez prédire le nombre d'actions Microsoft qui seront échangées demain. De quel type de problème s'agit-il ?", "choices": ["Problème de régression", "Classification binaire", "Classification multiclasse", "Aucune de ces réponses"], "answer": 0, "why": "La sortie est un nombre sur une échelle continue : c'est une régression. Le fait que ce soit un décompte d'actions ne change rien."}, {"id": "q2", "exam": true, "topic": "Types de problèmes", "type": "single", "q": "Chaque jour, la météo est classée en Ensoleillé, Nuageux ou Pluvieux. Vous voulez prédire la météo de demain. De quel type de problème s'agit-il ?", "choices": ["Problème de régression", "Classification binaire", "Classification multiclasse", "Aucune de ces réponses"], "answer": 2, "why": "Trois catégories distinctes, donc classification multiclasse. Deux catégories auraient donné du binaire."}, {"id": "q3", "exam": true, "topic": "Supervisé/Non supervisé", "type": "multi", "q": "Lesquels de ces problèmes traiteriez-vous avec un apprentissage supervisé ? (Cochez toutes les réponses correctes)", "choices": ["À partir de données historiques sur l'âge et la taille des enfants, prédire la taille en fonction de l'âge", "À partir de données sur 1000 patients, déterminer s'il existe différentes catégories de réponse au médicament", "Examiner une collection d'emails connus pour être des spams, afin de découvrir s'il existe des sous-catégories", "À partir de 50 articles d'auteurs masculins et 50 d'auteurs féminins, prédire le genre d'un nouvel auteur", "À partir de dossiers médicaux, déterminer s'il existe différents groupes de patients", "Examiner une page web et déterminer si son contenu est adapté aux enfants ou réservé aux adultes", "À partir de 1000 essais sur l'économie, les regrouper automatiquement en groupes similaires", "À partir des rendements agricoles des 50 dernières années, prédire ceux de l'année prochaine"], "answer": [0, 3, 5, 7], "why": "Supervisé = on a déjà la réponse pour chaque exemple. Les propositions 2, 3, 5 et 7 demandent de DÉCOUVRIR des groupes : ce sont du clustering, donc non supervisé. Attention à la 3 : les emails sont tous des spams, il n'y a donc qu'une classe et rien à prédire."}, {"id": "q9", "exam": true, "topic": "Supervisé/Non supervisé", "type": "multi", "q": "Parmi ces méthodes, lesquelles sont des approches non supervisées ?", "choices": ["DBSCAN", "Analyse en Composantes Principales (PCA)", "Analyse Discriminante Linéaire (LDA)", "K-moyennes", "Analyse des Composantes de Voisinage (NCA)"], "answer": [0, 1, 3], "why": "LDA et NCA utilisent les étiquettes pour choisir leurs axes : elles sont supervisées. PCA ne regarde que la variance des données, sans jamais consulter y."}, {"id": "q26", "exam": true, "topic": "Supervisé/Non supervisé", "type": "multi", "q": "Parmi les tâches suivantes, lesquelles sont des exemples d'apprentissage non supervisé ?", "choices": ["Regrouper des clients selon leur comportement d'achat sans labels", "Classifier des emails comme spam ou non spam à l'aide de données étiquetées", "Prédire les prix des logements à partir de données historiques étiquetées", "Détecter des anomalies dans le trafic réseau sans attaques étiquetées"], "answer": [0, 3], "why": "Les propositions 2 et 3 contiennent explicitement « étiquetées » : elles sont supervisées. Cocher les quatre annule tout et donne 0."}, {"id": "q1b", "topic": "Types de problèmes", "type": "single", "q": "Prédire la note qu'un utilisateur donnera à un film, sur une échelle de 0 à 10 avec une décimale, est un problème de :", "choices": ["Régression", "Classification binaire", "Classification multiclasse", "Clustering"], "answer": 0, "why": "Échelle continue de valeurs ordonnées : régression."}, {"id": "q1c", "topic": "Supervisé/Non supervisé", "type": "single", "q": "Segmenter les clients d'un magasin en groupes, sans savoir à l'avance quels groupes existent, relève de :", "choices": ["l'apprentissage supervisé", "l'apprentissage non supervisé", "la régression", "la classification binaire"], "answer": 1, "why": "Aucune étiquette de départ, on cherche une structure : c'est du clustering, donc non supervisé."}]}, {"id": "c2", "num": 2, "title": "Généralisation", "subtitle": "Sur-apprentissage, sous-apprentissage, validation croisée", "blurb": "Le thème le plus coûteux de ta copie : 6 points en jeu, 0,5 obtenu. Le mécanisme est simple une fois qu'on tient les deux colonnes de remèdes.", "notions": [{"section": "Le diagnostic", "intro": "Deux façons de rater, exactement opposées. Il faut d'abord savoir laquelle on regarde."}, {"kind": "def", "title": "Sous-apprentissage et sur-apprentissage", "lead": "Le modèle est soit trop bête pour apprendre, soit trop malin et il apprend le bruit.", "body": "\u003cp\u003e\u003cstrong\u003eSous-apprentissage\u003c/strong\u003e (underfitting) : le modèle est trop simple. Il se trompe déjà sur les données d'entraînement. Sur une figure, la frontière est une droite grossière qui laisse plein de points du mauvais côté.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eSur-apprentissage\u003c/strong\u003e (overfitting) : le modèle est trop complexe. Il est presque parfait sur l'entraînement mais s'effondre sur de nouvelles données. Sur une figure, la frontière est une courbe très tortueuse qui contourne chaque point isolé.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eDans les deux cas la généralisation est mauvaise.\u003c/strong\u003e C'est le demi-point manqué aux questions 5 et 7 : dès que tu identifies l'un des deux défauts, il faut aussi cocher « mauvaises performances de généralisation ».\u003c/p\u003e", "fig": "fitting", "ex": "frontière = une droite, beaucoup d'erreurs visibles  -\u003e SOUS-apprentissage\nfrontière = une courbe tortueuse qui isole des points -\u003e SUR-apprentissage\n\ndans les DEUX cas : mauvaise généralisation.\n               erreur train    erreur test\nsous-app.        élevée          élevée\nsur-app.         très faible     élevée\nbon modèle       faible          faible", "see": ["q5", "q7"]}, {"kind": "warn", "title": "Les deux colonnes de remèdes", "lead": "Chaque remède de gauche est l'exact opposé de celui de droite. C'est là que tu as inversé.", "body": "\u003cp\u003eLa logique : contre le \u003cstrong\u003esous\u003c/strong\u003e-apprentissage on donne \u003cem\u003eplus de puissance\u003c/em\u003e au modèle ; contre le \u003cstrong\u003esur\u003c/strong\u003e-apprentissage on lui en \u003cem\u003eretire\u003c/em\u003e, ou bien on lui donne plus de données.\u003c/p\u003e\u003cp\u003eDeux pièges à connaître. \u003cstrong\u003eAjouter des données d'entraînement ne soigne pas le sous-apprentissage\u003c/strong\u003e : un modèle trop simple restera trop simple, même avec un million d'exemples. Et \u003cstrong\u003el'early stopping ne soigne que le sur-apprentissage\u003c/strong\u003e : arrêter plus tôt un modèle qui n'apprend déjà pas assez ne peut qu'aggraver les choses.\u003c/p\u003e", "formula": "sous-apprentissage \u0026rarr; plus de modèle \u0026nbsp;\u0026middot;\u0026nbsp; sur-apprentissage \u0026rarr; moins de modèle, ou plus de données", "ex": "CONTRE LE SOUS-APPRENTISSAGE      CONTRE LE SUR-APPRENTISSAGE\n--------------------------------  --------------------------------\naugmenter la complexité           utiliser un modèle plus simple\n  (ajouter des paramètres)        réduire le nombre de features\najouter des features pertinentes  augmenter la régularisation (lambda)\nRÉDUIRE la régularisation         augmenter la taille du train\naugmenter le nombre d'époques     early stopping\n\nPIÈGES\n  plus de données     -\u003e n'aide PAS le sous-apprentissage\n  early stopping      -\u003e n'aide PAS le sous-apprentissage\n  réduire le train    -\u003e n'aide JAMAIS, ni l'un ni l'autre", "see": ["q6", "q8"]}, {"section": "Mesurer la généralisation", "intro": "Deux points perdus sur une seule question de validation croisée."}, {"kind": "algo", "title": "Validation croisée à k plis", "lead": "Chaque exemple sert de test exactement une fois : l'erreur est calculée sur la totalité du jeu.", "body": "\u003cp\u003eOn découpe le jeu en k parts égales. On répète k fois : entraîner sur k-1 parts, tester sur celle qui reste. Puis on moyenne les k erreurs.\u003c/p\u003e\u003cp\u003eLa question qui t'a coûté 2 points : sur 1000 emails avec k = 5, \u003cstrong\u003esur combien d'emails l'erreur est-elle calculée ?\u003c/strong\u003e Réponse : \u003cstrong\u003e1000\u003c/strong\u003e. À chaque tour on en teste 200, mais il y a 5 tours et les plis sont disjoints, donc à l'arrivée chaque email a été testé une fois et une seule.\u003c/p\u003e\u003cp\u003eC'est tout l'intérêt de la méthode : on obtient une estimation qui utilise l'intégralité des données, sans jamais tester un exemple sur lequel le modèle s'est entraîné.\u003c/p\u003e", "fig": "kfold", "ex": "1000 emails, k = 5   -\u003e   5 plis de 200\n\n  tour 1 : train 800 | test 200  (plis 2,3,4,5 | pli 1)\n  tour 2 : train 800 | test 200  (plis 1,3,4,5 | pli 2)\n  tour 3 : train 800 | test 200\n  tour 4 : train 800 | test 200\n  tour 5 : train 800 | test 200\n                       -------\n  total testé          1000  \u003c- la réponse attendue", "see": ["q4"]}], "quiz": [{"id": "q5", "exam": true, "topic": "Over/Underfitting", "type": "multi", "q": "La frontière de décision obtenue est une droite grossière, qui laisse de nombreux points du mauvais côté. Que peut-on dire de ce classifieur ?", "choices": ["Il est sujet au sous-apprentissage (underfitting)", "Il aura de bonnes performances de généralisation", "Il est sujet au sur-apprentissage (overfitting)", "Il aura de mauvaises performances de généralisation", "Aucune de ces réponses"], "answer": [0, 3], "why": "Une frontière trop simple qui se trompe déjà sur l'entraînement, c'est du sous-apprentissage. Et un modèle qui sous-apprend généralise mal : il faut cocher les DEUX."}, {"id": "q6", "exam": true, "topic": "Over/Underfitting", "type": "multi", "q": "Le classifieur est en sous-apprentissage. Qu'essayez-vous pour éviter ce problème ?", "choices": ["Utiliser un modèle plus simple", "Augmenter le paramètre de régularisation lambda", "Réduire le nombre de features", "Réduire le paramètre lambda de la régularisation", "Augmenter la taille de l'ensemble d'entraînement", "Ajouter plus de features pertinentes", "Augmenter le nombre d'époques d'entraînement", "Réduire la taille de l'ensemble d'entraînement", "Augmenter la complexité du modèle", "Utiliser l'early stopping"], "answer": [3, 5, 6, 8], "why": "Contre le sous-apprentissage, on donne plus de puissance au modèle : plus de paramètres, plus de features, moins de régularisation, plus d'époques. Ajouter des données d'entraînement n'y change rien, et l'early stopping aggraverait le problème."}, {"id": "q7", "exam": true, "topic": "Over/Underfitting", "type": "multi", "q": "La frontière de décision obtenue est une courbe très tortueuse, qui contourne chaque point isolé. Que peut-on dire de ce classifieur ?", "choices": ["Aucune de ces réponses", "Il est sujet au sous-apprentissage (underfitting)", "Il aura de mauvaises performances de généralisation", "Il aura de bonnes performances de généralisation", "Il est sujet au sur-apprentissage (overfitting)"], "answer": [2, 4], "why": "Une frontière qui épouse chaque point mémorise le bruit : c'est du sur-apprentissage, et la généralisation sera mauvaise. Là encore, deux cases."}, {"id": "q8", "exam": true, "topic": "Over/Underfitting", "type": "multi", "q": "Le classifieur est en sur-apprentissage. Qu'essayez-vous pour éviter ce problème ?", "choices": ["Augmenter la complexité du modèle", "Réduire le paramètre lambda de la régularisation", "Réduire la taille de l'ensemble d'entraînement", "Ajouter plus de features pertinentes", "Utiliser un modèle plus simple", "Augmenter la taille de l'ensemble d'entraînement", "Réduire le nombre de features", "Utiliser l'early stopping", "Augmenter le nombre d'époques d'entraînement", "Augmenter le paramètre de régularisation lambda"], "answer": [4, 5, 7, 9], "why": "Contre le sur-apprentissage : simplifier le modèle, augmenter la régularisation, collecter plus de données, arrêter tôt. Le corrigé retient ces quatre-là. Réduire le nombre de features va dans le bon sens mais n'était pas compté."}, {"id": "q4", "exam": true, "topic": "Validation croisée", "type": "single", "q": "Un corpus de 1000 emails, un modèle à trois classes, évalué par validation croisée avec k = 5. Sur combien d'emails le taux d'erreur est-il calculé ?", "choices": ["0", "200", "400", "600", "800", "1000", "Aucune de ces réponses"], "answer": 5, "why": "Chaque tour teste 200 emails, mais il y a 5 tours sur des plis disjoints : au total les 1000 emails ont chacun été testé exactement une fois."}, {"id": "q4b", "topic": "Validation croisée", "type": "single", "q": "Avec 1000 exemples et k = 5, sur combien d'exemples le modèle s'entraîne-t-il à chaque tour ?", "choices": ["200", "500", "800", "1000"], "answer": 2, "why": "k-1 plis servent à l'entraînement, soit 4 × 200 = 800."}, {"id": "q2b", "topic": "Over/Underfitting", "type": "single", "q": "Un modèle obtient 99 % de réussite sur l'entraînement et 62 % sur le test. Quel est le diagnostic ?", "choices": ["Sous-apprentissage", "Sur-apprentissage", "Le modèle est bien réglé", "Il manque des features"], "answer": 1, "why": "Excellent en entraînement, mauvais en test : le modèle a mémorisé au lieu de généraliser."}, {"id": "q2c", "topic": "Over/Underfitting", "type": "single", "q": "Un modèle obtient 58 % sur l'entraînement et 57 % sur le test. Quel est le diagnostic ?", "choices": ["Sous-apprentissage", "Sur-apprentissage", "Le modèle est parfait", "L'ensemble de test est trop petit"], "answer": 0, "why": "Il échoue déjà sur les données qu'il a vues : il est trop simple pour le problème."}, {"id": "q2d", "topic": "Over/Underfitting", "type": "single", "q": "Augmenter le paramètre de régularisation lambda a pour effet de :", "choices": ["rendre le modèle plus complexe", "contraindre le modèle et le simplifier", "accélérer la convergence", "augmenter le nombre de features"], "answer": 1, "why": "La régularisation pénalise les poids importants : elle bride le modèle. Donc lambda ↑ combat le sur-apprentissage, lambda ↓ combat le sous-apprentissage."}]}, {"id": "c3", "num": 3, "title": "Régression linéaire", "subtitle": "Modèle, fonction de coût, descente de gradient", "blurb": "Le modèle le plus simple, et celui sur lequel repose l'intuition de la descente de gradient. Deux points perdus, dont un sur une question de pure logique.", "notions": [{"section": "Le modèle et son coût", "intro": "Une droite, et une mesure de son écart aux données."}, {"kind": "def", "title": "Régression linéaire", "lead": "On cherche la droite qui passe au plus près de tous les points.", "body": "\u003cp\u003eLe modèle est f\u003csub\u003eW\u003c/sub\u003e(x) = w\u003csub\u003e1\u003c/sub\u003ex + w\u003csub\u003e0\u003c/sub\u003e. On mesure sa qualité par l'\u003cstrong\u003eerreur quadratique moyenne\u003c/strong\u003e (MSE) : la moyenne des carrés des écarts entre la prédiction et la vraie valeur.\u003c/p\u003e\u003cp\u003eOn élève au carré pour deux raisons : les erreurs positives et négatives ne se compensent pas, et les grosses erreurs sont pénalisées davantage.\u003c/p\u003e\u003cp\u003eQuestion d'examen typique : le nuage de points descend quand x augmente, donc la pente w\u003csub\u003e1\u003c/sub\u003e est \u003cstrong\u003enégative\u003c/strong\u003e. On peut répondre sans calculer, juste en regardant le signe.\u003c/p\u003e", "formula": "J(W) = (1/N) \u0026sum;\u003csub\u003ei\u003c/sub\u003e ( f\u003csub\u003eW\u003c/sub\u003e(x\u003csub\u003ei\u003c/sub\u003e) \u0026minus; y\u003csub\u003ei\u003c/sub\u003e )\u0026sup2;", "ex": "les hydrocarbures : plus il y a de carbones, PLUS la chaleur dégagée\nest négative (de -890 à -5471).  y diminue quand x augmente.\n\n  -\u003e  la pente w1 est NÉGATIVE\n  -\u003e  w0 est l'ordonnée à l'origine, proche des premières valeurs\n\nréponse : w1 = -530.9 , w0 = -569.6", "see": ["q13"]}, {"kind": "thm", "title": "Que signifie J(W) = 0 ?", "lead": "Un coût nul veut dire que tous les points sont exactement sur la droite.", "body": "\u003cp\u003eJ est une moyenne de carrés. Une somme de carrés ne vaut zéro que si \u003cstrong\u003echaque\u003c/strong\u003e terme est nul, c'est-à-dire si la prédiction est exacte pour chaque exemple.\u003c/p\u003e\u003cp\u003eCela ne veut pas dire que les y valent zéro, ni que les poids valent zéro. Cela veut simplement dire que les données sont parfaitement alignées.\u003c/p\u003e\u003cp\u003eAu passage : la fonction de coût de la régression linéaire est \u003cstrong\u003econvexe\u003c/strong\u003e, elle n'a pas de minimum local. L'argument « la descente de gradient est bloquée dans un minimum local » est donc faux ici.\u003c/p\u003e", "see": ["q15"]}, {"section": "La descente de gradient", "intro": "Le seul thème où tu as fait un sans-faute. Voici ce qu'il faut garder."}, {"kind": "algo", "title": "Descente de gradient et taux d'apprentissage", "lead": "On avance à petits pas dans le sens de la plus forte pente descendante.", "body": "\u003cp\u003eÀ chaque itération : w \u0026larr; w \u0026minus; \u0026eta; \u0026times; (gradient). Le paramètre \u0026eta; (eta) est le \u003cstrong\u003etaux d'apprentissage\u003c/strong\u003e, la taille du pas.\u003c/p\u003e\u003cp\u003eTrois faits à retenir, tous tombés à l'examen. Si \u0026eta; est \u003cstrong\u003etrop grand\u003c/strong\u003e, le coût peut \u003cem\u003eaugmenter\u003c/em\u003e au lieu de diminuer : on saute par-dessus le minimum. Si \u0026eta; est \u003cstrong\u003etrop petit\u003c/strong\u003e, ce n'est pas faux mais c'est lent — donc dire que le réduire « ne peut qu'accélérer la convergence » est faux.\u003c/p\u003e\u003cp\u003eEnfin, si on démarre \u003cstrong\u003eexactement au minimum\u003c/strong\u003e, le gradient est nul et une itération ne change rien. Et sur une fonction avec des minima locaux, le point de départ détermine où l'on atterrit : rien ne garantit la même solution.\u003c/p\u003e", "formula": "w \u0026larr; w \u0026minus; \u0026eta; \u0026nabla;J(w)", "fig": "gradient", "see": ["q14"]}], "quiz": [{"id": "q13", "exam": true, "topic": "Régression linéaire", "type": "single", "q": "Pour les hydrocarbures, la chaleur dégagée y va de -890 (1 carbone) à -5471 (8 carbones). Quelles valeurs obtiendrez-vous pour une régression f(x) = w1·x + w0 ?", "choices": ["w1 = 530.9, w0 = -1780.0", "w1 = -530.9, w0 = -569.6", "w1 = -530.9, w0 = -1780.0", "w1 = 530.9, w0 = -569.6"], "answer": 1, "why": "y décroît quand x croît, donc w1 \u003c 0. Et pour x = 1 on doit retrouver environ -890 : avec w1 = -530.9 il faut w0 ≈ -890 + 530.9 ≈ -359, ce qui désigne -569.6 plutôt que -1780."}, {"id": "q15", "exam": true, "topic": "Régression linéaire", "type": "single", "q": "On trouve des poids tels que la fonction de perte J(w1, w0) = 0. Qu'est-ce qui doit nécessairement être vrai ?", "choices": ["La descente de gradient est restée bloquée dans un minimum local", "Les points d'entraînement se trouvent exactement sur une même droite", "Il faut que w1 = 0 et w0 = 0", "Il faut que y_i = 0 pour tout i"], "answer": 1, "why": "J est une somme de carrés : elle ne s'annule que si chaque erreur est nulle, donc si tous les points sont alignés. Rien n'impose que les poids ou les y soient nuls."}, {"id": "q14", "exam": true, "topic": "Descente de gradient", "type": "multi", "q": "On minimise une fonction f(w0, w1) quelconque par descente de gradient. Quelles affirmations sont vraies ?", "choices": ["Si w1 et w0 sont initialisés au minimum global, une itération ne changera pas leurs valeurs", "Fixer le taux d'apprentissage très petit n'est pas nuisible et ne peut qu'accélérer la convergence", "Quelle que soit l'initialisation, si eta est assez petit la descente converge vers la même solution", "Si les premières itérations font augmenter f, c'est probablement que eta est trop grand"], "answer": [0, 3], "why": "Au minimum le gradient est nul, donc rien ne bouge. Un coût qui augmente signale un pas trop grand. En revanche un eta minuscule RALENTIT, et sur une fonction à minima locaux l'initialisation change le résultat."}, {"id": "q3b", "topic": "Régression linéaire", "type": "single", "q": "Quelle métrique évalue le résultat d'une régression linéaire ?", "choices": ["La matrice de confusion", "L'erreur quadratique moyenne (MSE)", "La courbe ROC", "La courbe précision/rappel"], "answer": 1, "why": "Les trois autres supposent des classes discrètes ; elles n'ont pas de sens pour une sortie continue."}]}, {"id": "c4", "num": 4, "title": "Classification", "subtitle": "Régression logistique, sigmoïde, matrice de confusion", "blurb": "Huit points en jeu entre la sigmoïde et les métriques, et tu en as obtenu deux. C'est le chapitre où le rattrapage se joue.", "notions": [{"section": "La régression logistique", "intro": "Une régression linéaire qu'on écrase entre 0 et 1 pour en faire une probabilité."}, {"kind": "def", "title": "La fonction sigmoïde", "lead": "Elle transforme n'importe quel nombre réel en une probabilité entre 0 et 1.", "body": "\u003cp\u003eh(x, W) = 1 / (1 + e\u003csup\u003e\u0026minus;W\u003csup\u003eT\u003c/sup\u003ex\u003c/sup\u003e). Trois valeurs à connaître par cœur :\u003c/p\u003e\u003cp\u003eQuand W\u003csup\u003eT\u003c/sup\u003ex est \u003cstrong\u003etrès positif\u003c/strong\u003e, h tend vers \u003cstrong\u003e1\u003c/strong\u003e. Quand il est \u003cstrong\u003etrès négatif\u003c/strong\u003e, h tend vers \u003cstrong\u003e0\u003c/strong\u003e — et jamais vers \u0026minus;1, la sigmoïde ne descend pas sous zéro. Et quand W\u003csup\u003eT\u003c/sup\u003ex = \u003cstrong\u003e0\u003c/strong\u003e, alors h = \u003cstrong\u003e0,5\u003c/strong\u003e exactement.\u003c/p\u003e\u003cp\u003eCette dernière égalité est la question 21, où tu as répondu 6. Le 6 venait de la question précédente sur la frontière de décision : c'est la valeur de x\u003csub\u003e1\u003c/sub\u003e, pas celle de W\u003csup\u003eT\u003c/sup\u003ex.\u003c/p\u003e", "formula": "h = 1 / (1 + e\u003csup\u003e\u0026minus;W\u003csup\u003eT\u003c/sup\u003ex\u003c/sup\u003e) \u0026nbsp;\u0026middot;\u0026nbsp; h = 0,5 \u0026hArr; W\u003csup\u003eT\u003c/sup\u003ex = 0", "fig": "sigmoid", "ex": "W^T x  -\u003e  h\n  -inf -\u003e  0\n    -2 -\u003e  0,12\n     0 -\u003e  0,50   \u003c- la frontière de décision\n    +2 -\u003e  0,88\n  +inf -\u003e  1", "see": ["q19", "q21"]}, {"kind": "warn", "title": "Ce que vaut la sortie du classifieur", "lead": "h(x) est la probabilité de la classe 1, pas celle de la classe prédite.", "body": "\u003cp\u003eSi h(x) = 0,2, cela signifie P(y = 1 | x) = \u003cstrong\u003e0,2\u003c/strong\u003e et donc P(y = 0 | x) = \u003cstrong\u003e0,8\u003c/strong\u003e. Le modèle prédit la classe 0, avec 80 % de confiance.\u003c/p\u003e\u003cp\u003eÀ la question 18 tu as coché l'inverse. Le réflexe à installer : \u003cstrong\u003eh, c'est toujours la probabilité du 1\u003c/strong\u003e. L'autre s'obtient par 1 \u0026minus; h.\u003c/p\u003e\u003cp\u003eCorollaire (question 20) : si un exemple de classe y = 1 est correctement classé, alors h \u003e 0,5, donc h \u003e 1 \u0026minus; h. La prédiction dépasse son complément.\u003c/p\u003e", "ex": "h(x) = 0,2\n   P(y=1 | x) = 0,2       h, c'est la proba du 1\n   P(y=0 | x) = 0,8       le complément\n   classe prédite : 0     car h \u003c 0,5\n\ny = 1 bien classé  =\u003e  h \u003e 0,5  =\u003e  h \u003e 1 - h", "see": ["q18", "q20"]}, {"kind": "algo", "title": "La frontière de décision", "lead": "Elle se trouve là où W^T x = 0, c'est-à-dire là où le modèle hésite à 50/50.", "body": "\u003cp\u003eAvec w\u003csub\u003e0\u003c/sub\u003e = \u0026minus;6, w\u003csub\u003e1\u003c/sub\u003e = 1, w\u003csub\u003e2\u003c/sub\u003e = 0, on a W\u003csup\u003eT\u003c/sup\u003ex = \u0026minus;6 + x\u003csub\u003e1\u003c/sub\u003e. La frontière est donc \u0026minus;6 + x\u003csub\u003e1\u003c/sub\u003e = 0, soit \u003cstrong\u003ex\u003csub\u003e1\u003c/sub\u003e = 6\u003c/strong\u003e : une droite verticale.\u003c/p\u003e\u003cp\u003eDe quel côté est la classe 1 ? Là où W\u003csup\u003eT\u003c/sup\u003ex \u003e 0, donc là où x\u003csub\u003e1\u003c/sub\u003e \u003e 6, c'est-à-dire à \u003cstrong\u003edroite\u003c/strong\u003e. Comme w\u003csub\u003e2\u003c/sub\u003e = 0, x\u003csub\u003e2\u003c/sub\u003e n'intervient pas : la frontière est forcément verticale.\u003c/p\u003e", "ex": "w0 = -6, w1 = 1, w2 = 0\n\n  W^T x = -6 + x1\n  frontière : -6 + x1 = 0  -\u003e  x1 = 6   (droite verticale)\n  x1 \u003e 6  -\u003e  W^T x \u003e 0  -\u003e  h \u003e 0,5  -\u003e  y = 1  (à droite)\n  x1 \u003c 6  -\u003e  y = 0                            (à gauche)", "see": ["q16"]}, {"section": "La matrice de confusion", "intro": "Trois questions, trois divisions, zéro point. C'est le gain le plus rapide de toute ta révision — et il y a un exercice minuté pour ça."}, {"kind": "def", "title": "Lire la matrice", "lead": "Quatre cases : vrais positifs, faux positifs, faux négatifs, vrais négatifs.", "body": "\u003cp\u003eDans les sujets de l'examen, les \u003cstrong\u003ecolonnes\u003c/strong\u003e sont la classe réelle et les \u003cstrong\u003elignes\u003c/strong\u003e la prédiction. La case en haut à gauche est donc TP (prédit +, réellement +), et celle en bas à droite TN.\u003c/p\u003e\u003cp\u003eLes deux erreurs : en haut à droite \u003cstrong\u003eFP\u003c/strong\u003e (on a crié au loup à tort), en bas à gauche \u003cstrong\u003eFN\u003c/strong\u003e (on a raté un vrai cas).\u003c/p\u003e", "fig": "confusion", "ex": "                   RÉEL\n                 +      -\n  PRÉDIT  +     TP     FP\n          -     FN     TN", "see": ["q23"]}, {"kind": "thm", "title": "Les trois formules", "lead": "Accuracy sur le total, précision sur la ligne, rappel sur la colonne.", "body": "\u003cp\u003e\u003cstrong\u003eAccuracy\u003c/strong\u003e = ce qu'on a bien classé sur le total = (TP+TN) / (TP+FP+FN+TN).\u003c/p\u003e\u003cp\u003e\u003cstrong\u003ePrécision\u003c/strong\u003e = parmi les cas que j'ai annoncés positifs, combien l'étaient vraiment = TP / (TP+FP). C'est la \u003cstrong\u003eligne\u003c/strong\u003e du haut.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eRappel\u003c/strong\u003e = parmi les vrais positifs existants, combien j'en ai trouvé = TP / (TP+FN). C'est la \u003cstrong\u003ecolonne\u003c/strong\u003e de gauche.\u003c/p\u003e\u003cp\u003eMoyen mnémotechnique : la \u003cem\u003eprécision\u003c/em\u003e juge mes \u003cem\u003eannonces\u003c/em\u003e (ma ligne), le \u003cem\u003erappel\u003c/em\u003e juge ma \u003cem\u003ecouverture\u003c/em\u003e de la réalité (sa colonne).\u003c/p\u003e", "formula": "acc = (TP+TN)/total \u0026nbsp;\u0026middot;\u0026nbsp; préc = TP/(TP+FP) \u0026nbsp;\u0026middot;\u0026nbsp; rappel = TP/(TP+FN) \u0026nbsp;\u0026middot;\u0026nbsp; F1 = 2·préc·rappel/(préc+rappel)", "ex": "les trois questions de ton examen, refaites :\n\nQ23  TP=94 FP=37 FN=11 TN=23    total = 165\n     accuracy = (94+23)/165 = 117/165 = 0,709  -\u003e  0,71\n\nQ24  TP=72 FP=29 FN=33 TN=31\n     rappel   = 72/(72+33) = 72/105 = 0,686   -\u003e  0,69\n\nQ25  TP=80 FP=40 FN=25 TN=20\n     précision = 80/(80+40) = 80/120 = 0,667  -\u003e  0,67", "see": ["q23", "q24", "q25"]}, {"kind": "warn", "title": "Quelle métrique pour quelle tâche", "lead": "MSE pour la régression ; confusion, ROC et précision/rappel pour la classification.", "body": "\u003cp\u003eDeux questions de l'examen portent exactement là-dessus, et il faut cocher \u003cstrong\u003etrois\u003c/strong\u003e cases pour la classification.\u003c/p\u003e\u003cp\u003eLa « courbe JAZZ » n'existe pas : c'est un distracteur.\u003c/p\u003e", "ex": "RÉGRESSION       : MSE (erreur quadratique moyenne)\nCLASSIFICATION   : matrice de confusion\n                   courbes ROC\n                   courbes précision / rappel\n\n                   (la « courbe JAZZ » n'existe pas)", "see": ["q17", "q22"]}], "quiz": [{"id": "q16", "exam": true, "topic": "Sigmoïde", "type": "single", "q": "Un classifieur logistique h(x) = g(w0 + w1·x1 + w2·x2) avec w0 = -6, w1 = 1, w2 = 0. Où se trouve la frontière de décision, et de quel côté est y = 1 ?", "choices": ["Droite verticale x1 = 6, avec y = 1 à gauche", "Droite verticale x1 = 6, avec y = 1 à droite", "Droite horizontale x2 = 6, avec y = 1 au-dessus", "Droite horizontale x2 = 6, avec y = 1 en dessous"], "answer": 1, "why": "W^T x = -6 + x1, donc la frontière est x1 = 6, verticale (w2 = 0 : x2 n'intervient pas). Pour x1 \u003e 6 on a W^T x \u003e 0 donc h \u003e 0,5 : la classe 1 est à droite."}, {"id": "q18", "exam": true, "topic": "Sigmoïde", "type": "multi", "q": "Un classifieur logistique renvoie h(x) = 0,2 sur un nouvel exemple. Cela signifie :", "choices": ["P(y=0 | x; W) = 0.8", "P(y=1 | x; W) = 0.2", "P(y=1 | x; W) = 0.8", "P(y=0 | x; W) = 0.2"], "answer": [0, 1], "why": "h est TOUJOURS la probabilité de la classe 1. Donc P(y=1) = 0,2 et P(y=0) = 1 - 0,2 = 0,8."}, {"id": "q19", "exam": true, "topic": "Sigmoïde", "type": "single", "q": "Pour la sigmoïde h = 1/(1+e^(-W^T x)), quelle affirmation est vraie ?", "choices": ["De grandes valeurs positives de W^T x rendent h proche de 1, et de grandes valeurs négatives rendent h proche de 0", "De petites valeurs positives rendent h proche de 1, et de grandes valeurs négatives rendent h proche de 0", "De petites valeurs positives rendent h proche de 0, et de grandes négatives rendent h proche de -1", "De grandes valeurs positives rendent h proche de 1, et de grandes négatives rendent h proche de -1"], "answer": 0, "why": "La sigmoïde est comprise entre 0 et 1. Elle ne vaut jamais -1 : c'est ce qui élimine deux des propositions."}, {"id": "q20", "exam": true, "topic": "Sigmoïde", "type": "single", "q": "Un exemple de classe y = 1 est correctement classé, donc h(x, W) \u003e 0,5. Qu'est-ce qui doit être vrai ?", "choices": ["h(x,W) est inférieur à (1 - y)", "h(x,W) est exactement égal à y", "h(x,W) est inférieur à (1 - h(x,W))", "h(x,W) est supérieur à (1 - h(x,W))"], "answer": 3, "why": "h \u003e 0,5 équivaut exactement à h \u003e 1 - h. La prédiction n'a aucune raison d'être exactement égale à 1."}, {"id": "q21", "exam": true, "topic": "Sigmoïde", "type": "single", "q": "Pour quelle valeur de W^T x la sigmoïde vaut-elle exactement 0,5 ?", "choices": ["0", "0,5", "1", "6"], "answer": 0, "why": "1/(1+e^0) = 1/2. C'est le point où le modèle hésite : la frontière de décision."}, {"id": "q17", "exam": true, "topic": "Métriques", "type": "single", "q": "Quelle métrique évalue le résultat d'une régression linéaire ?", "choices": ["Courbe précision / rappel", "Courbe JAZZ", "L'erreur quadratique moyenne (MSE)", "Matrice de confusion", "Courbes ROC"], "answer": 2, "why": "Toutes les autres supposent des classes discrètes. La courbe JAZZ n'existe pas."}, {"id": "q22", "exam": true, "topic": "Métriques", "type": "multi", "q": "Quelles métriques évaluent le résultat d'un problème de classification ?", "choices": ["Courbes ROC", "Courbe JAZZ", "L'erreur quadratique moyenne (MSE)", "Courbe précision / rappel", "Matrice de confusion"], "answer": [0, 3, 4], "why": "Trois cases à cocher. La MSE est pour la régression, et la courbe JAZZ est un distracteur."}, {"id": "q23", "exam": true, "topic": "Matrice de confusion", "type": "num", "q": "Matrice de confusion (lignes = prédiction, colonnes = réel) : TP = 94, FP = 37, FN = 11, TN = 23. Quelle est l'accuracy, à 0,01 près ?", "answer": 0.71, "tol": 0.005, "why": "(TP + TN) / total = (94 + 23) / (94+37+11+23) = 117 / 165 = 0,709 → 0,71."}, {"id": "q24", "exam": true, "topic": "Matrice de confusion", "type": "num", "q": "Matrice de confusion : TP = 72, FP = 29, FN = 33, TN = 31. Quel est le rappel, à 0,01 près ?", "answer": 0.69, "tol": 0.005, "why": "Rappel = TP / (TP + FN) = 72 / (72 + 33) = 72 / 105 = 0,686 → 0,69."}, {"id": "q25", "exam": true, "topic": "Matrice de confusion", "type": "num", "q": "Matrice de confusion : TP = 80, FP = 40, FN = 25, TN = 20. Quelle est la précision, à 0,01 près ?", "answer": 0.67, "tol": 0.005, "why": "Précision = TP / (TP + FP) = 80 / (80 + 40) = 80 / 120 = 0,667 → 0,67."}, {"id": "q4c", "topic": "Matrice de confusion", "type": "single", "q": "Le rappel se calcule avec :", "choices": ["TP / (TP + FP)", "TP / (TP + FN)", "(TP + TN) / total", "TN / (TN + FP)"], "answer": 1, "why": "Le rappel mesure la couverture des vrais positifs : c'est la colonne du réel positif."}, {"id": "q4d", "topic": "Sigmoïde", "type": "single", "q": "Un classifieur logistique renvoie h(x) = 0,9. Quelle est la classe prédite ?", "choices": ["0", "1", "impossible à dire", "0,9"], "answer": 1, "why": "h \u003e 0,5 donc on prédit la classe 1, avec 90 % de confiance."}]}, {"id": "c5", "num": 5, "title": "Non supervisé", "subtitle": "K-means, DBSCAN, Affinity Propagation, PCA", "blurb": "Le gros du polycopié. Les questions sont à choix multiples avec trois bonnes réponses à chaque fois — exactement celles où tu n'as coché qu'une case.", "notions": [{"section": "Le clustering", "intro": "Trouver une structure de groupes : les données d'un même groupe se ressemblent, celles de groupes différents diffèrent."}, {"kind": "algo", "title": "K-means", "lead": "On place K centres, on assigne chaque point au plus proche, on recalcule les centres, on recommence.", "body": "\u003cp\u003eL'algorithme minimise la somme des distances au carré entre chaque point et le centre de son cluster — autrement dit la \u003cstrong\u003evariance intra-cluster\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eTrois propriétés tombent systématiquement, et il faut les cocher toutes les trois : il faut \u003cstrong\u003efixer K à l'avance\u003c/strong\u003e ; les résultats \u003cstrong\u003edépendent de l'initialisation\u003c/strong\u003e ; il \u003cstrong\u003eminimise la variance intra-cluster\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eCe qui est faux : il ne trouve \u003cem\u003epas\u003c/em\u003e l'optimum global (il converge vers un minimum local, d'où l'intérêt de relancer plusieurs fois), et il n'est \u003cem\u003epas\u003c/em\u003e robuste aux valeurs aberrantes — il utilise des moyennes, pas des médianes.\u003c/p\u003e", "formula": "E({m\u003csub\u003ek\u003c/sub\u003e}) = \u0026sum;\u003csub\u003en\u003c/sub\u003e min\u003csub\u003ek\u003c/sub\u003e \u0026#8214; x\u003csub\u003en\u003c/sub\u003e \u0026minus; m\u003csub\u003ek\u003c/sub\u003e \u0026#8214;\u0026sup2;", "fig": "kmeans", "ex": "VRAI sur K-means                    FAUX sur K-means\n----------------------------------  ------------------------------------\nK doit être fixé à l'avance         il trouve l'optimum global\ndépend de l'initialisation          il est robuste aux aberrants\nminimise la variance intra-cluster    (il utilise des moyennes)\n\nhypothèses implicites : clusters sphériques, compacts, convexes,\nlinéairement séparables deux à deux.", "see": ["q27"]}, {"kind": "algo", "title": "DBSCAN", "lead": "On ne compte plus les distances aux centres, mais la densité de voisinage.", "body": "\u003cp\u003eDeux paramètres : \u0026epsilon; (le rayon du voisinage) et m (le nombre minimum de voisins pour qu'un voisinage soit dit dense).\u003c/p\u003e\u003cp\u003eTrois types de points : les \u003cstrong\u003epoints centraux\u003c/strong\u003e (au moins m voisins dans leur \u0026epsilon;-voisinage), les \u003cstrong\u003epoints frontière\u003c/strong\u003e (voisins d'un point central sans l'être eux-mêmes), et les \u003cstrong\u003epoints aberrants\u003c/strong\u003e — ni l'un ni l'autre, donc du bruit.\u003c/p\u003e\u003cp\u003eLà encore trois cases à cocher : il \u003cstrong\u003edétecte les formes arbitraires\u003c/strong\u003e, il \u003cstrong\u003eidentifie le bruit comme valeurs aberrantes\u003c/strong\u003e, il est \u003cstrong\u003efondé sur la connectivité par densité\u003c/strong\u003e. Et il n'exige \u003cstrong\u003epas\u003c/strong\u003e de fixer le nombre de clusters : il le déduit du nombre de composantes connexes du graphe d'accessibilité.\u003c/p\u003e", "fig": "dbscan", "ex": "paramètres : epsilon (rayon), m (voisins minimum)\n\npoint central  : au moins m voisins à distance \u003c epsilon\npoint frontière: voisin d'un central, mais pas central\npoint aberrant : ni l'un ni l'autre  -\u003e bruit\n\nepsilon trop faible -\u003e beaucoup de petits groupes\nepsilon trop élevé  -\u003e un seul groupe\nheuristique : graphe des k-distances, on cherche le coude\n\nLIMITE : densité supposée identique partout ; impossible de classer\nun nouveau point sans tout recalculer.", "see": ["q28"]}, {"kind": "algo", "title": "Affinity Propagation", "lead": "Les points s'échangent des messages pour élire des représentants.", "body": "\u003cp\u003eOn part d'une matrice de similarité S. On construit itérativement la matrice de \u003cstrong\u003eresponsabilité\u003c/strong\u003e R(i,k) — à quel point i estime que k ferait un bon représentant — et la matrice de \u003cstrong\u003edisponibilité\u003c/strong\u003e A(i,k) — à quel point k est disposé à représenter i.\u003c/p\u003e\u003cp\u003eLa \u003cstrong\u003ediagonale\u003c/strong\u003e de S s'appelle la \u003cem\u003epréférence\u003c/em\u003e : elle dit à quel point un point veut voter pour lui-même. Valeurs élevées → beaucoup de petits clusters ; valeurs basses → peu de gros clusters. On la fixe en général à la médiane de S.\u003c/p\u003e\u003cp\u003eAvantage : le nombre de clusters n'a pas à être fixé. Inconvénient : complexité quadratique en temps et en espace, car toute la matrice de similarité doit être calculée.\u003c/p\u003e", "see": []}, {"section": "La réduction de dimension", "intro": "PCA : trois questions à l'examen, 0,83 point obtenu."}, {"kind": "def", "title": "PCA, analyse en composantes principales", "lead": "On cherche les axes selon lesquels les données varient le plus, et on jette les autres.", "body": "\u003cp\u003eMéthode du TP : standardiser les données, calculer la \u003cstrong\u003ematrice de covariance\u003c/strong\u003e, en extraire \u003cstrong\u003evaleurs propres et vecteurs propres\u003c/strong\u003e, puis garder les composantes qui cumulent assez de variance.\u003c/p\u003e\u003cp\u003eCe qu'il faut cocher : les valeurs propres \u003cstrong\u003eindiquent la quantité d'information retenue\u003c/strong\u003e par chaque composante ; l'espace engendré par les vecteurs propres représente des features \u003cstrong\u003edécorrélées\u003c/strong\u003e ; et le problème \u003cstrong\u003epeut se résoudre par SVD sans calculer explicitement la covariance\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eAttention au piège : « décorrélées » est correct, « indépendantes » ne l'est pas — la décorrélation est une propriété d'ordre deux, plus faible que l'indépendance.\u003c/p\u003e\u003cp\u003eÀ quoi sert la PCA : \u003cstrong\u003eréduire le nombre de variables\u003c/strong\u003e et \u003cstrong\u003evisualiser en 2D ou 3D\u003c/strong\u003e. Pas à prédire, pas à regrouper.\u003c/p\u003e", "fig": "pca", "see": ["q11", "q12"]}, {"kind": "thm", "title": "Retenir 95 % de la variance", "lead": "Si 95 % de la variance est conservée, l'erreur de reconstruction vaut au plus 5 %.", "body": "\u003cp\u003eC'est la question 10, et c'est une simple lecture de formule. L'erreur de reconstruction rapportée à l'énergie totale mesure ce qu'on a \u003cstrong\u003eperdu\u003c/strong\u003e. Si l'on \u003cem\u003econserve\u003c/em\u003e 95 %, on \u003cem\u003eperd\u003c/em\u003e au plus 5 %.\u003c/p\u003e\u003cp\u003eLe rapport doit donc être \u003cstrong\u003einférieur ou égal à 0,05\u003c/strong\u003e. Le réflexe : conserver beaucoup ⟹ perdre peu ⟹ petit nombre à droite du signe ≤.\u003c/p\u003e", "formula": "\u0026sum;\u0026#8214;x\u003csub\u003ei\u003c/sub\u003e \u0026minus; x\u0026#770;\u003csub\u003ei\u003c/sub\u003e\u0026#8214;\u0026sup2; / \u0026sum;\u0026#8214;x\u003csub\u003ei\u003c/sub\u003e\u0026#8214;\u0026sup2; \u0026nbsp;\u0026le;\u0026nbsp; 0,05", "ex": "variance conservée   erreur de reconstruction\n        99 %                 \u003c= 0,01\n        95 %                 \u003c= 0,05      \u003c- la question de l'examen\n        90 %                 \u003c= 0,10", "see": ["q10"]}], "quiz": [{"id": "q27", "exam": true, "topic": "Clustering", "type": "multi", "q": "Quelles affirmations concernant K-means sont correctes ?", "choices": ["Les résultats peuvent dépendre de l'initialisation", "Il trouve toujours l'optimum global de l'objectif de clustering", "Il est robuste aux valeurs aberrantes grâce à l'utilisation des médianes", "Il nécessite de définir à l'avance le nombre de clusters K", "Il minimise la variance intra-cluster"], "answer": [0, 3, 4], "why": "Trois cases. K-means converge vers un minimum local (d'où les relances multiples) et utilise des moyennes, ce qui le rend sensible aux aberrants."}, {"id": "q28", "exam": true, "topic": "Clustering", "type": "multi", "q": "Quelles affirmations concernant DBSCAN sont correctes ?", "choices": ["Il peut identifier des points de bruit comme des valeurs aberrantes", "Il peut détecter des clusters de forme arbitraire", "Il nécessite de spécifier le nombre de clusters", "Il suppose que les clusters sont sphériques comme K-means", "Il est basé sur la connectivité par densité"], "answer": [0, 1, 4], "why": "Trois cases. DBSCAN déduit le nombre de clusters des composantes connexes du graphe d'accessibilité, et ne suppose aucune forme particulière."}, {"id": "q10", "exam": true, "topic": "PCA", "type": "single", "q": "Quelqu'un a effectué une PCA en conservant 95 % de la variance. Quelle affirmation est équivalente ?", "choices": ["L'erreur de reconstruction relative est ≤ 0,05", "L'erreur de reconstruction relative est ≥ 0,95", "L'erreur de reconstruction relative est ≥ 0,05", "L'erreur de reconstruction relative est ≤ 0,95"], "answer": 0, "why": "Conserver 95 % de la variance revient à en perdre au plus 5 %. Le rapport mesure la perte, il est donc majoré par 0,05."}, {"id": "q11", "exam": true, "topic": "PCA", "type": "multi", "q": "L'analyse en composantes principales (PCA) est utilisée pour :", "choices": ["Faire des prédictions à partir des features des échantillons", "Étiqueter ou regrouper les exemples similaires", "Visualiser les échantillons de données en 2D ou 3D", "Réduire le nombre de features décrivant les échantillons"], "answer": [2, 3], "why": "Deux cases. La PCA ne prédit rien (ce serait supervisé) et ne regroupe rien (ce serait du clustering) : elle réduit et permet de visualiser."}, {"id": "q12", "exam": true, "topic": "PCA", "type": "multi", "q": "Quelles affirmations sont correctes concernant la PCA ?", "choices": ["On peut considérer l'espace engendré par les vecteurs propres comme des features décorrélées", "On peut résoudre la PCA par SVD sans calculer explicitement la matrice de covariance", "Les valeurs propres indiquent la quantité d'information retenue par chaque composante", "On peut considérer l'espace engendré par les vecteurs propres comme des features indépendantes", "Aucune de ces réponses"], "answer": [0, 1, 2], "why": "Trois cases. Le piège est la quatrième : les composantes sont DÉCORRÉLÉES, ce qui est plus faible qu'indépendantes."}, {"id": "q5b", "topic": "Clustering", "type": "single", "q": "Dans DBSCAN, un point qui n'est ni central ni frontière est :", "choices": ["un centroïde", "un point de bruit (aberrant)", "un exemplaire", "une valeur propre"], "answer": 1, "why": "C'est précisément la définition du bruit dans DBSCAN, et ce qui lui permet de détecter les outliers."}, {"id": "q5c", "topic": "Clustering", "type": "single", "q": "Dans DBSCAN, choisir un epsilon beaucoup trop grand produit :", "choices": ["de nombreux petits groupes", "un unique groupe", "uniquement du bruit", "exactement K groupes"], "answer": 1, "why": "Tout le monde devient voisin de tout le monde : le graphe d'accessibilité est connexe."}, {"id": "q5d", "topic": "Clustering", "type": "single", "q": "Dans Affinity Propagation, à quoi sert la diagonale de la matrice de similarité ?", "choices": ["Elle fixe le nombre de clusters", "Ce sont les préférences : la tendance d'un point à se choisir lui-même", "Elle contient les distances au centroïde", "Elle stocke les valeurs propres"], "answer": 1, "why": "Des préférences élevées donnent beaucoup de petits clusters ; on les fixe souvent à la médiane de S."}]}, {"id": "c6", "num": 6, "title": "Arbres et réseaux", "subtitle": "Arbres de décision, Gini, entropie, réseaux de neurones", "blurb": "Huit points en jeu, trois obtenus. Les questions sur les arbres sont toutes à trois bonnes réponses, et celles sur les couches de sortie sont du pur par-cœur.", "notions": [{"section": "Les arbres de décision", "intro": "Une suite de questions oui/non sur les variables. Quatre questions à l'examen."}, {"kind": "def", "title": "Ce qu'est un arbre de décision", "lead": "Il découpe l'espace en rectangles, par des seuils successifs sur les variables.", "body": "\u003cp\u003eChaque nœud pose une question de la forme « x\u003csub\u003ej\u003c/sub\u003e ≤ seuil ? » et sépare les données en deux. On recommence récursivement. Chaque feuille porte une classe (ou une valeur, en régression).\u003c/p\u003e\u003cp\u003eLes cases à cocher, systématiquement au nombre de trois : ils \u003cstrong\u003eséparent selon des seuils\u003c/strong\u003e, ils \u003cstrong\u003epartitionnent récursivement l'espace\u003c/strong\u003e, ils \u003cstrong\u003egèrent numérique et catégoriel\u003c/strong\u003e, ils sont \u003cstrong\u003efacilement interprétables\u003c/strong\u003e (chaque chemin racine→feuille est une règle), et ils servent \u003cstrong\u003een classification comme en régression\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eCe qui est faux : ce ne sont pas des modèles linéaires, ils n'ont pas besoin de descente de gradient, et ils n'exigent \u003cstrong\u003epas\u003c/strong\u003e de normaliser les variables — un seuil sur une variable n'est pas affecté par son échelle.\u003c/p\u003e", "fig": "arbre", "see": ["q29", "q31"]}, {"kind": "thm", "title": "Critères de séparation", "lead": "Gini et entropie pour classer, réduction de variance pour régresser.", "body": "\u003cp\u003eÀ chaque nœud on choisit la coupure qui rend les deux sous-groupes les plus \u003cem\u003epurs\u003c/em\u003e possible. Trois critères, tous les trois corrects à l'examen :\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eImpureté de Gini\u003c/strong\u003e = 1 \u0026minus; \u0026sum; p\u003csub\u003ec\u003c/sub\u003e\u0026sup2;. \u003cstrong\u003eEntropie\u003c/strong\u003e = \u0026minus;\u0026sum; p\u003csub\u003ec\u003c/sub\u003e log\u003csub\u003e2\u003c/sub\u003e p\u003csub\u003ec\u003c/sub\u003e, d'où le gain d'information. \u003cstrong\u003eRéduction de la variance\u003c/strong\u003e, pour les arbres de régression.\u003c/p\u003e\u003cp\u003eLa perte logistique, elle, n'est pas un critère de split : c'est une fonction de coût pour la régression logistique.\u003c/p\u003e\u003cp\u003eLes deux critères sont nuls quand le nœud est pur, et maximaux quand les classes sont équiréparties.\u003c/p\u003e", "formula": "Gini = 1 \u0026minus; \u0026sum;\u003csub\u003ec\u003c/sub\u003e p\u003csub\u003ec\u003c/sub\u003e\u0026sup2; \u0026nbsp;\u0026middot;\u0026nbsp; H = \u0026minus;\u0026sum;\u003csub\u003ec\u003c/sub\u003e p\u003csub\u003ec\u003c/sub\u003e log\u003csub\u003e2\u003c/sub\u003e p\u003csub\u003ec\u003c/sub\u003e", "ex": "nœud pur              [10, 0]   Gini = 0        H = 0\néquiréparti           [5, 5]    Gini = 0,5      H = 1\ndéséquilibré          [8, 2]    Gini = 0,32     H = 0,72\n\n  Gini([8,2]) = 1 - (0,8² + 0,2²) = 1 - (0,64 + 0,04) = 0,32\n  H([8,2])   = -0,8·log2(0,8) - 0,2·log2(0,2) = 0,72", "see": ["q30"]}, {"kind": "warn", "title": "Sur-apprentissage des arbres", "lead": "Un arbre laissé libre finit par isoler chaque exemple dans sa propre feuille.", "body": "\u003cp\u003eQuestion 32, où tu as coché exactement les remèdes au lieu des causes. Ce qui \u003cstrong\u003eprovoque\u003c/strong\u003e le sur-apprentissage : des \u003cstrong\u003earbres très profonds\u003c/strong\u003e, et \u003cstrong\u003eaucune contrainte sur le nombre minimum d'échantillons par feuille\u003c/strong\u003e.\u003c/p\u003e\u003cp\u003eCe qui le \u003cstrong\u003ecombat\u003c/strong\u003e, au contraire : limiter la profondeur maximale, élaguer l'arbre (pruning), imposer un minimum d'échantillons par feuille. Ce sont les paramètres \u003ccode\u003emax_depth\u003c/code\u003e et \u003ccode\u003emin_samples_split\u003c/code\u003e du TP.\u003c/p\u003e", "ex": "PROVOQUE le sur-apprentissage    LE COMBAT\n-------------------------------  -----------------------------\narbre très profond               limiter max_depth\naucun minimum par feuille        élagage (pruning)\n                                 min_samples_split élevé", "see": ["q32"]}, {"section": "Les réseaux de neurones", "intro": "Quatre questions, dont deux de pur par-cœur sur la couche de sortie."}, {"kind": "def", "title": "À quoi sert une fonction d'activation", "lead": "À introduire de la non-linéarité — sans elle, tout le réseau se réduit à une seule couche linéaire.", "body": "\u003cp\u003eEmpiler des couches linéaires ne sert à rien : la composée de deux fonctions linéaires reste linéaire. C'est l'activation non linéaire entre les couches qui donne au réseau sa capacité à représenter des frontières complexes.\u003c/p\u003e\u003cp\u003eElle ne sert ni à régulariser, ni à normaliser les entrées, ni à garantir quoi que ce soit sur la convergence.\u003c/p\u003e", "see": ["q33"]}, {"kind": "thm", "title": "La couche de sortie : trois cas, trois activations", "lead": "Sigmoïde pour le binaire, softmax pour le multiclasse, identité pour la régression.", "body": "\u003cp\u003eLa règle se déduit de ce qu'on veut en sortie. Une \u003cstrong\u003eprobabilité unique\u003c/strong\u003e entre 0 et 1 → \u003cstrong\u003esigmoïde\u003c/strong\u003e. Une \u003cstrong\u003edistribution\u003c/strong\u003e sur plusieurs classes, dont la somme fait 1 → \u003cstrong\u003esoftmax\u003c/strong\u003e. Un \u003cstrong\u003enombre réel\u003c/strong\u003e quelconque, sans borne → \u003cstrong\u003eidentité\u003c/strong\u003e (aucune activation).\u003c/p\u003e\u003cp\u003eReLU et tanh sont des activations de couches \u003cem\u003ecachées\u003c/em\u003e : elles n'ont rien à faire en sortie.\u003c/p\u003e", "fig": "sorties", "ex": "TÂCHE                           SORTIE          ACTIVATION\n------------------------------  --------------  ----------\nclassification binaire          1 probabilité   sigmoïde\nreconnaissance de chiffres      10 probas       softmax\n  (multiclasse)                   somme = 1\nprédiction du marché boursier   1 réel          identité\n  (régression)\n\nReLU et tanh : uniquement dans les couches CACHÉES.", "see": ["q34", "q35", "q36"]}], "quiz": [{"id": "q29", "exam": true, "topic": "Arbres", "type": "multi", "q": "Parmi les affirmations suivantes concernant les arbres de décision, lesquelles sont correctes ?", "choices": ["Les arbres de décision séparent les données en fonction de seuils sur les variables", "Ils peuvent traiter à la fois des données numériques et catégorielles", "Ils nécessitent toujours une normalisation des variables pour fonctionner correctement", "Ce sont des modèles linéaires", "Ils partitionnent récursivement l'espace des variables"], "answer": [0, 1, 4], "why": "Trois cases. Un seuil n'est pas affecté par l'échelle de la variable : pas besoin de normaliser. Et découper l'espace en rectangles n'a rien de linéaire."}, {"id": "q30", "exam": true, "topic": "Arbres", "type": "multi", "q": "Quels critères sont couramment utilisés pour effectuer une séparation dans un arbre de décision ?", "choices": ["Impureté de Gini", "Perte logistique", "Gain d'information (entropie)", "Réduction de la variance"], "answer": [0, 2, 3], "why": "Trois cases. Gini et entropie pour la classification, réduction de variance pour la régression. La perte logistique est la fonction de coût de la régression logistique."}, {"id": "q31", "exam": true, "topic": "Arbres", "type": "multi", "q": "Quelles affirmations concernant les arbres de décision sont correctes ?", "choices": ["Ils peuvent être utilisés pour la classification et la régression", "Ils ne peuvent pas être utilisés pour des tâches de régression", "Ils nécessitent une descente de gradient pour l'entraînement", "Ce sont des modèles facilement interprétables", "Chaque chemin de la racine à une feuille représente une règle de décision"], "answer": [0, 3, 4], "why": "Trois cases. L'entraînement se fait par recherche gloutonne du meilleur split, pas par descente de gradient."}, {"id": "q32", "exam": true, "topic": "Arbres", "type": "multi", "q": "Quels facteurs peuvent conduire à du sur-apprentissage dans les arbres de décision ?", "choices": ["Limiter la profondeur maximale", "L'élagage de l'arbre (pruning)", "Utiliser trop peu de variables", "Des arbres très profonds", "Aucune contrainte sur le nombre minimum d'échantillons par feuille"], "answer": [3, 4], "why": "Attention au sens de la question : elle demande les CAUSES, pas les remèdes. Limiter la profondeur et élaguer sont justement les parades."}, {"id": "q33", "exam": true, "topic": "Réseaux de neurones", "type": "single", "q": "Quelle est la principale utilité d'une fonction d'activation dans un réseau de neurones ?", "choices": ["Empêcher le surapprentissage en régularisant les poids", "Introduire de la non-linéarité afin de résoudre des problèmes complexes", "Garantir que la fonction de perte converge vers un minimum global", "Normaliser les entrées afin d'accélérer la descente de gradient"], "answer": 1, "why": "Sans non-linéarité, empiler des couches revient à une seule transformation linéaire."}, {"id": "q34", "exam": true, "topic": "Réseaux de neurones", "type": "single", "q": "Pour une classification binaire, quelle est la fonction d'activation de la dernière couche ?", "choices": ["Sigmoid", "Relu", "Identity", "SoftMax", "Tanh"], "answer": 0, "why": "On veut une probabilité unique entre 0 et 1 : c'est exactement ce que produit la sigmoïde."}, {"id": "q35", "exam": true, "topic": "Réseaux de neurones", "type": "single", "q": "Pour la reconnaissance de chiffres manuscrits, quelle est la fonction d'activation de la dernière couche ?", "choices": ["Sigmoid", "Identity", "Softmax", "Tanh", "Relu"], "answer": 2, "why": "Dix classes : on veut une distribution de probabilités dont la somme vaut 1, c'est le rôle du softmax."}, {"id": "q36", "exam": true, "topic": "Réseaux de neurones", "type": "single", "q": "Pour une régression prédisant le marché boursier, quelle est la fonction d'activation de la dernière couche ?", "choices": ["Sigmoid", "Tanh", "Softmax", "Relu", "Identity"], "answer": 4, "why": "La sortie est un réel non borné : toute activation écraserait la valeur. On n'en met donc aucune, c'est l'identité."}, {"id": "q6b", "topic": "Arbres", "type": "single", "q": "Quelle est l'impureté de Gini d'un nœud parfaitement pur ?", "choices": ["0", "0,5", "1", "cela dépend du nombre de classes"], "answer": 0, "why": "Une seule classe : p = 1, donc Gini = 1 - 1² = 0. L'entropie vaut également 0."}, {"id": "q6c", "topic": "Réseaux de neurones", "type": "single", "q": "Que se passe-t-il si l'on empile plusieurs couches sans aucune fonction d'activation ?", "choices": ["Le réseau apprend plus vite", "L'ensemble reste équivalent à une seule couche linéaire", "Le réseau surapprend systématiquement", "Les gradients explosent"], "answer": 1, "why": "La composée de fonctions linéaires est linéaire : la profondeur n'apporte alors rien."}]}], "exam": {"note": 5.67, "sur": 20, "points": 11.33, "total": 40, "duree": "51 min 54 s", "date": "29 juin 2026", "regle": "Une bonne case cochée rapporte 1/n des points (n = nombre de bonnes réponses). Une mauvaise case cochée en annule une bonne. Le score d'une question ne descend jamais sous 0. Une question sans réponse vaut 0.", "themes": [{"t": "Sur/sous-apprentissage", "p": 6, "g": 0.5, "q": "5, 6, 7, 8, 32"}, {"t": "Arbres de décision", "p": 4, "g": 0.99, "q": "29, 30, 31, 32"}, {"t": "Supervisé / non supervisé", "p": 4, "g": 1.0, "q": "3, 9, 26"}, {"t": "Sigmoïde et logistique", "p": 5, "g": 2.0, "q": "16, 18, 19, 20, 21"}, {"t": "Matrice de confusion", "p": 3, "g": 0.0, "q": "23, 24, 25"}, {"t": "PCA", "p": 3, "g": 0.83, "q": "10, 11, 12"}, {"t": "Validation croisée", "p": 2, "g": 0.0, "q": "4"}, {"t": "Réseaux de neurones", "p": 4, "g": 2.0, "q": "33, 34, 35, 36"}, {"t": "Métriques par tâche", "p": 2, "g": 0.33, "q": "17, 22"}, {"t": "Clustering", "p": 2, "g": 0.66, "q": "27, 28"}, {"t": "Types de problèmes", "p": 2, "g": 1.0, "q": "1, 2"}, {"t": "Régression linéaire", "p": 2, "g": 1.0, "q": "13, 15"}, {"t": "Descente de gradient", "p": 1, "g": 1.0, "q": "14"}], "lecons": [{"titre": "Tu as coché une seule case là où il y en avait trois", "detail": "Sept questions (12, 22, 27, 28, 29, 30, 31) sont notées 0,33/1 : à chaque fois une bonne case sur trois. Cocher les trois valait 1,00. À elles seules, ces sept questions représentent 4,7 points, soit 2,35/20.", "gain": 2.35}, {"titre": "Tu as coché des cases qui ont annulé les bonnes", "detail": "Aux questions 3, 6, 8, 26 et 32, tu avais trouvé de bonnes cases, mais les mauvaises les ont annulées : score 0 à chaque fois. Sur un QCM à choix multiples, ne coche que ce dont tu es sûr — l'incertitude coûte cher.", "gain": 4.0}, {"titre": "Les trois calculs de matrice de confusion", "detail": "Accuracy, rappel, précision : trois questions, 0 point. Ce sont trois divisions. C'est le gain le plus rapide de toute la révision.", "gain": 1.5}, {"titre": "Les remèdes sur/sous-apprentissage sont inversés", "detail": "Aux questions 6 et 8, tu as proposé pour le sous-apprentissage les remèdes du surapprentissage, et inversement. Six points sont en jeu sur ce seul thème.", "gain": 2.75}]}}</script>
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById("iaml-data").textContent);
+var CH = D.chapters, EXAM = D.exam;
+
+var mem = {};
+var store = {
+  get:function(k){ try{ var v=window.localStorage.getItem(k); return v===null?mem[k]:v; }catch(e){ return mem[k]; } },
+  set:function(k,v){ mem[k]=v; try{ window.localStorage.setItem(k,v); }catch(e){} }
+};
+var KEY="iaml.v1";
+var state={ans:{}, drills:{}};
+try{ var raw=store.get(KEY); if(raw){ var p=JSON.parse(raw); state.ans=p.ans||{}; state.drills=p.drills||{}; } }catch(e){}
+function save(){ try{ store.set(KEY, JSON.stringify(state)); }catch(e){} }
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function el(h){ var d=document.createElement("div"); d.innerHTML=h.trim(); return d.firstChild; }
+function rnd(a,b){ return a+Math.floor(Math.random()*(b-a+1)); }
+function r2(x){ return Math.round(x*100)/100; }
+
+var ALLQ=[]; CH.forEach(function(c){ c.quiz.forEach(function(q){ q._ch=c.id; ALLQ.push(q); }); });
+
+/* ---------- barème Moodle ---------- */
+function grade(q, given){
+  if(q.type==="num"){
+    if(given===null||given===undefined||given==="") return 0;
+    var v=parseFloat(String(given).replace(",","."));
+    if(isNaN(v)) return 0;
+    return Math.abs(v-q.answer)<=(q.tol||0.005)?1:0;
+  }
+  if(q.type==="single"){ return given===q.answer?1:0; }
+  var A=q.answer, g=given||[];
+  var right=0,wrong=0;
+  g.forEach(function(i){ if(A.indexOf(i)>=0) right++; else wrong++; });
+  return Math.max(0,(right-wrong)/A.length);
+}
+
+/* ---------- figures ---------- */
+var W="#ECEFF3",A1="#5BC8AF",A2="#7FB2F0",WA="#F2A65A",BA="#F0736A",GO="#7ED9A0",DL="#2C3A48";
+function sv(w,h){ return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'; }
+function tx(x,y,s,c,sz,anc){ return '<text x="'+x+'" y="'+y+'" fill="'+c+'" font-size="'+(sz||10)+
+  '" font-family="ui-monospace,monospace" text-anchor="'+(anc||"middle")+'" dominant-baseline="central">'+s+'</text>'; }
+function ln(x1,y1,x2,y2,c,w){ return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+c+
+  '" stroke-width="'+(w||1.5)+'" stroke-linecap="round"/>'; }
+var FIG={};
+FIG.supervise=function(){var s=sv(430,150);
+  s+='<rect x="14" y="26" width="190" height="106" rx="7" fill="#0F1620" stroke="'+A1+'" stroke-width="1.3"/>';
+  s+='<rect x="226" y="26" width="190" height="106" rx="7" fill="#0F1620" stroke="'+WA+'" stroke-width="1.3"/>';
+  s+=tx(109,16,"SUPERVISÉ : on a les y",A1,10)+tx(321,16,"NON SUPERVISÉ : pas de y",WA,10);
+  [[50,60,GO],[80,52,BA],[110,72,GO],[145,58,BA],[62,100,GO],[100,104,BA],[140,96,GO],[170,80,BA]]
+   .forEach(function(p){ s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+p[2]+'"/>'; });
+  s+=ln(38,120,182,44,W,1.4);
+  [[262,60],[292,52],[322,72],[357,58],[274,100],[312,104],[352,96],[382,80]]
+   .forEach(function(p){ s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="none" stroke="'+W+'" stroke-width="1.3"/>'; });
+  s+='<ellipse cx="290" cy="62" rx="46" ry="26" fill="none" stroke="'+WA+'" stroke-dasharray="3 3"/>';
+  s+='<ellipse cx="358" cy="90" rx="42" ry="24" fill="none" stroke="'+WA+'" stroke-dasharray="3 3"/>';
+  s+=tx(109,144,"on apprend la frontière",W,9.5)+tx(321,144,"on découvre des groupes",W,9.5);
+  return s+"</svg>";};
+FIG.fitting=function(){var s=sv(430,150),i;
+  var pts=[[30,90],[52,74],[74,96],[96,66],[118,86]];
+  function box(ox,lab,col,path){var r='';
+    r+='<rect x="'+ox+'" y="24" width="126" height="94" rx="5" fill="#0F1620" stroke="'+DL+'"/>';
+    for(i=0;i<5;i++){ r+='<circle cx="'+(ox+18+i*22)+'" cy="'+(50+((i*37)%40))+'" r="4.5" fill="'+GO+'"/>'; }
+    for(i=0;i<5;i++){ r+='<circle cx="'+(ox+26+i*21)+'" cy="'+(92-((i*29)%30))+'" r="4.5" fill="'+BA+'"/>'; }
+    r+='<path d="'+path+'" fill="none" stroke="'+col+'" stroke-width="2"/>';
+    r+=tx(ox+63,14,lab,col,10);
+    return r;}
+  s+=box(8,"sous-apprentissage",WA,"M 14 34 L 128 108");
+  s+=box(152,"bon modèle",GO,"M 158 40 Q 215 70 272 100");
+  s+=box(296,"sur-apprentissage",BA,
+     "M 302 38 Q 318 78 336 52 Q 352 30 364 76 Q 376 106 392 60 Q 404 32 416 100");
+  s+=tx(215,134,"dans les deux cas extrêmes : mauvaise généralisation",W,9.5);
+  return s+"</svg>";};
+FIG.kfold=function(){var s=sv(430,150),i,j;
+  s+=tx(215,14,"1000 exemples, k = 5",A1,10.5);
+  for(i=0;i<5;i++){ for(j=0;j<5;j++){
+    var on=(i===j);
+    s+='<rect x="'+(60+j*66)+'" y="'+(28+i*20)+'" width="62" height="16" rx="2" fill="'+
+       (on?"#1E2A22":"#131A23")+'" stroke="'+(on?GO:DL)+'" stroke-width="1.1"/>';
+    if(on) s+=tx(91+j*66,36,"test",GO,8);
+  }
+    s+=tx(48,36+i*20,"t"+(i+1),W,9,"end");
+  }
+  s+=tx(215,142,"chaque exemple testé exactement 1 fois  ->  1000 au total",GO,10);
+  return s+"</svg>";};
+FIG.gradient=function(){var s=sv(430,150);
+  s+='<path d="M 30 30 Q 215 175 400 30" fill="none" stroke="'+DL+'" stroke-width="1.6"/>';
+  [[60,64],[110,102],[160,122],[200,128]].forEach(function(p,i){
+    s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="'+A1+'"/>';
+    if(i<3) s+=ln(p[0]+6,p[1]+3,p[0]+38,p[1]+14,A1,1.2);
+  });
+  s+=tx(215,132,"minimum",GO,9);
+  [[350,64],[300,110],[380,52]].forEach(function(p){ s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="'+BA+'"/>'; });
+  s+=ln(350,64,300,110,BA,1.2)+ln(300,110,380,52,BA,1.2);
+  s+=tx(110,26,"eta correct : on descend",A1,9.5)+tx(340,26,"eta trop grand : ça remonte",BA,9.5);
+  return s+"</svg>";};
+FIG.sigmoid=function(){var s=sv(430,160),i,d="";
+  s+=ln(40,140,410,140,DL,1)+ln(225,20,225,150,DL,1);
+  for(i=0;i<=60;i++){ var x=-6+i*0.2, y=1/(1+Math.exp(-x));
+    d+=(i?"L":"M")+(225+x*30)+" "+(140-y*105); }
+  s+='<path d="'+d+'" fill="none" stroke="'+A1+'" stroke-width="2.2"/>';
+  s+=ln(40,87.5,410,87.5,WA,1)+"";
+  s+='<circle cx="225" cy="87.5" r="5" fill="'+WA+'"/>';
+  s+=tx(262,78,"h = 0,5 quand W^T x = 0",WA,10,"start");
+  s+=tx(395,30,"h -> 1",A1,10)+tx(60,132,"h -> 0",A1,10);
+  s+=tx(225,154,"W^T x",W,9.5);
+  return s+"</svg>";};
+FIG.confusion=function(){var s=sv(430,168);
+  s+=tx(255,16,"CLASSE RÉELLE",W,10);
+  s+=tx(200,38,"+",GO,12)+tx(320,38,"-",BA,12);
+  s+=tx(120,80,"PRÉDIT  +",W,10,"end")+tx(120,124,"PRÉDIT  -",W,10,"end");
+  function c(x,y,lab,val,col){ return '<rect x="'+x+'" y="'+y+'" width="120" height="40" rx="3" fill="#0F1620" stroke="'+
+    col+'" stroke-width="1.3"/>'+tx(x+60,y+15,lab,col,11)+tx(x+60,y+29,val,W,9); }
+  s+=c(140,60,"TP","bien classés +",GO);
+  s+=c(266,60,"FP","fausse alerte",BA);
+  s+=c(140,104,"FN","raté",BA);
+  s+=c(266,104,"TN","bien classés -",GO);
+  s+='<rect x="136" y="56" width="128" height="92" rx="4" fill="none" stroke="'+A2+'" stroke-dasharray="3 3"/>';
+  s+=tx(200,158,"rappel = colonne",A2,9.5);
+  s+='<rect x="136" y="56" width="254" height="48" rx="4" fill="none" stroke="'+WA+'" stroke-dasharray="3 3"/>';
+  s+=tx(350,52,"précision = ligne",WA,9.5);
+  return s+"</svg>";};
+FIG.kmeans=function(){var s=sv(430,150);
+  var g=[[[70,60],[92,48],[58,84],[86,86],[104,68]],[[210,44],[238,60],[218,86],[246,92],[258,52]],
+         [[334,66],[358,50],[352,92],[376,72],[326,96]]];
+  var cols=[A1,A2,WA], ctr=[[82,69],[234,67],[349,75]];
+  g.forEach(function(cl,i){ cl.forEach(function(p){
+    s+=ln(p[0],p[1],ctr[i][0],ctr[i][1],cols[i],0.8);
+    s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="5" fill="'+cols[i]+'"/>'; }); });
+  ctr.forEach(function(p,i){ s+='<path d="M '+(p[0]-7)+' '+p[1]+' L '+(p[0]+7)+' '+p[1]+
+    ' M '+p[0]+' '+(p[1]-7)+' L '+p[0]+' '+(p[1]+7)+'" stroke="'+W+'" stroke-width="2"/>'; });
+  s+=tx(215,20,"K centroïdes fixés à l'avance",W,10);
+  s+=tx(215,136,"minimise la somme des distances² au centre",A1,9.5);
+  return s+"</svg>";};
+FIG.dbscan=function(){var s=sv(430,158);
+  var core=[[120,70],[142,86],[100,92],[126,108],[158,66]];
+  var bord=[[80,62],[172,102],[92,124]];
+  var noise=[[300,40],[360,120],[330,80],[395,52]];
+  s+='<circle cx="120" cy="70" r="30" fill="none" stroke="'+A1+'" stroke-dasharray="3 3"/>';
+  core.forEach(function(p){ s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="'+A1+'"/>'; });
+  bord.forEach(function(p){ s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="none" stroke="'+A1+'" stroke-width="1.6"/>'; });
+  noise.forEach(function(p){ s+='<path d="M '+(p[0]-4)+' '+(p[1]-4)+' L '+(p[0]+4)+' '+(p[1]+4)+
+    ' M '+(p[0]+4)+' '+(p[1]-4)+' L '+(p[0]-4)+' '+(p[1]+4)+'" stroke="'+BA+'" stroke-width="1.8"/>'; });
+  s+=tx(155,42,"epsilon",A1,9.5,"start");
+  s+=tx(120,146,"● centraux   ○ frontière",A1,10);
+  s+=tx(345,146,"✕ bruit (aberrants)",BA,10);
+  return s+"</svg>";};
+FIG.pca=function(){var s=sv(430,150),i;
+  for(i=0;i<26;i++){ var t=(i*37%100)/100, u=((i*53)%100)/100-0.5;
+    var x=90+t*230+u*30, y=112-t*66+u*34;
+    s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="'+A2+'" opacity="0.85"/>'; }
+  s+=ln(84,116,326,46,A1,2.4);
+  s+=ln(190,52,232,112,WA,1.8);
+  s+=tx(340,40,"PC1",A1,10,"start")+tx(238,46,"PC2",WA,10,"start");
+  s+=tx(215,140,"PC1 = axe de plus grande variance",A1,10);
+  s+=tx(215,16,"les valeurs propres = variance portée par chaque axe",W,9.5);
+  return s+"</svg>";};
+FIG.arbre=function(){var s=sv(430,158);
+  var N=[[215,30],[130,80],[300,80],[85,128],[175,128]];
+  s+=ln(215,42,130,68,W,1.4)+ln(215,42,300,68,W,1.4)+ln(130,92,85,116,W,1.4)+ln(130,92,175,116,W,1.4);
+  s+='<rect x="160" y="20" width="110" height="22" rx="4" fill="#0F1620" stroke="'+A1+'"/>'+tx(215,31,"x2 <= 1.8 ?",A1,9.5);
+  s+='<rect x="78" y="70" width="104" height="22" rx="4" fill="#0F1620" stroke="'+A1+'"/>'+tx(130,81,"x3 <= 4.9 ?",A1,9.5);
+  s+='<rect x="256" y="70" width="88" height="22" rx="4" fill="#0F1620" stroke="'+GO+'"/>'+tx(300,81,"classe 0",GO,9.5);
+  s+='<rect x="44" y="118" width="82" height="22" rx="4" fill="#0F1620" stroke="'+GO+'"/>'+tx(85,129,"classe 1",GO,9.5);
+  s+='<rect x="136" y="118" width="82" height="22" rx="4" fill="#0F1620" stroke="'+GO+'"/>'+tx(177,129,"classe 2",GO,9.5);
+  s+=tx(360,128,"chaque chemin",W,9,"middle")+tx(360,140,"= une règle",W,9,"middle");
+  return s+"</svg>";};
+FIG.sorties=function(){var s=sv(430,160);
+  function row(y,lab,act,col,detail){var r='';
+    r+='<rect x="14" y="'+y+'" width="150" height="30" rx="4" fill="#0F1620" stroke="'+DL+'"/>';
+    r+=tx(89,y+15,lab,W,10);
+    r+='<path d="M 170 '+(y+15)+' L 196 '+(y+15)+'" stroke="'+col+'" stroke-width="1.5"/>';
+    r+='<path d="M 190 '+(y+11)+' L 196 '+(y+15)+' L 190 '+(y+19)+'" fill="none" stroke="'+col+'" stroke-width="1.5"/>';
+    r+='<rect x="202" y="'+y+'" width="96" height="30" rx="4" fill="#0F1620" stroke="'+col+'"/>';
+    r+=tx(250,y+15,act,col,11);
+    r+=tx(310,y+15,detail,W,9,"start");
+    return r;}
+  s+=tx(215,14,"la couche de SORTIE dépend de la tâche",W,10.5);
+  s+=row(28,"classification binaire","sigmoïde",A1,"1 proba");
+  s+=row(70,"multiclasse (chiffres)","softmax",A2,"n probas, somme 1");
+  s+=row(112,"régression","identité",WA,"1 réel libre");
+  s+=tx(215,154,"ReLU et tanh : uniquement en couches cachées",BA,9.5);
+  return s+"</svg>";};
+
+/* ---------- drills aléatoires ---------- */
+function cm(){ return {tp:rnd(40,120), fp:rnd(10,60), fn:rnd(8,50), tn:rnd(15,70)}; }
+function cmTxt(m){
+  return "                  RÉEL\n                +       -\n"+
+   "  PRÉDIT  +   "+String(m.tp).padStart(3)+"     "+String(m.fp).padStart(3)+"\n"+
+   "          -   "+String(m.fn).padStart(3)+"     "+String(m.tn).padStart(3);
+}
+var DRILLS=[
+ {id:"acc", t:"Accuracy", d:"(TP + TN) / total", gen:function(){var m=cm();
+   return {q:cmTxt(m)+"\n\naccuracy = ?", a:(m.tp+m.tn)/(m.tp+m.fp+m.fn+m.tn),
+     s:"(TP+TN)/total = ("+m.tp+"+"+m.tn+")/"+(m.tp+m.fp+m.fn+m.tn)};}},
+ {id:"prec", t:"Précision", d:"TP / (TP + FP) — la ligne du haut", gen:function(){var m=cm();
+   return {q:cmTxt(m)+"\n\nprécision = ?", a:m.tp/(m.tp+m.fp),
+     s:"TP/(TP+FP) = "+m.tp+"/"+(m.tp+m.fp)};}},
+ {id:"rec", t:"Rappel", d:"TP / (TP + FN) — la colonne de gauche", gen:function(){var m=cm();
+   return {q:cmTxt(m)+"\n\nrappel = ?", a:m.tp/(m.tp+m.fn),
+     s:"TP/(TP+FN) = "+m.tp+"/"+(m.tp+m.fn)};}},
+ {id:"f1", t:"F1-score", d:"2·P·R / (P+R)", gen:function(){var m=cm();
+   var P=m.tp/(m.tp+m.fp), R=m.tp/(m.tp+m.fn);
+   return {q:cmTxt(m)+"\n\nF1 = ?", a:2*P*R/(P+R),
+     s:"P="+r2(P)+", R="+r2(R)+", F1=2PR/(P+R)"};}},
+ {id:"sig", t:"Sigmoïde", d:"h = 1/(1+e^-z)", gen:function(){
+   var z=(rnd(-30,30))/10;
+   return {q:"W^T x = "+z.toFixed(1)+"\n\nh = 1/(1+e^(-W^T x)) = ?", a:1/(1+Math.exp(-z)),
+     s:"1/(1+e^(-("+z.toFixed(1)+"))) ; rappel : z=0 -> 0,5"};}},
+ {id:"proba", t:"Probabilité de la classe 0", d:"P(y=0) = 1 - h", gen:function(){
+   var h=rnd(5,95)/100;
+   return {q:"le classifieur renvoie h(x) = "+h.toFixed(2)+"\n\nP(y = 0 | x) = ?", a:1-h,
+     s:"h est la proba du 1, donc P(y=0) = 1 - "+h.toFixed(2)};}},
+ {id:"gini", t:"Impureté de Gini", d:"1 - somme des p²", gen:function(){
+   var a=rnd(1,19), b=rnd(1,19), n=a+b;
+   return {q:"un nœud contient "+a+" exemples de classe A\net "+b+" de classe B  (total "+n+")\n\nGini = ?",
+     a:1-Math.pow(a/n,2)-Math.pow(b/n,2),
+     s:"1 - ("+a+"/"+n+")² - ("+b+"/"+n+")²"};}},
+ {id:"entro", t:"Entropie", d:"-somme p·log2(p)", gen:function(){
+   var a=rnd(1,19), b=rnd(1,19), n=a+b, p=a/n, q=b/n;
+   return {q:"un nœud contient "+a+" exemples de classe A\net "+b+" de classe B  (total "+n+")\n\nentropie = ?",
+     a:-(p*Math.log2(p)+q*Math.log2(q)),
+     s:"-"+r2(p)+"·log2("+r2(p)+") - "+r2(q)+"·log2("+r2(q)+")"};}},
+ {id:"pca", t:"Variance expliquée (PCA)", d:"part cumulée des valeurs propres", gen:function(){
+   var v=[rnd(30,60),rnd(15,29),rnd(5,14),rnd(1,4)];
+   var tot=v[0]+v[1]+v[2]+v[3];
+   return {q:"valeurs propres : "+v.join(", ")+"\n\npart de variance des 2 premières composantes = ?",
+     a:(v[0]+v[1])/tot, s:"("+v[0]+"+"+v[1]+")/"+tot};}},
+ {id:"kfold", t:"Validation croisée", d:"taille d'entraînement par tour", gen:function(){
+   var n=rnd(2,20)*100, k=[4,5,8,10][rnd(0,3)];
+   return {q:n+" exemples, validation croisée à k = "+k+"\n\nnombre d'exemples d'ENTRAÎNEMENT par tour = ?",
+     a:n*(k-1)/k, tol:0.5, s:n+" × "+(k-1)+"/"+k+"  (le test en compte "+(n/k)+")"};}},
+ {id:"mse", t:"MSE", d:"moyenne des carrés des écarts", gen:function(){
+   var y=[rnd(1,9),rnd(1,9),rnd(1,9)], p=[rnd(1,9),rnd(1,9),rnd(1,9)];
+   var m=(Math.pow(y[0]-p[0],2)+Math.pow(y[1]-p[1],2)+Math.pow(y[2]-p[2],2))/3;
+   return {q:"y réel   : "+y.join(", ")+"\ny prédit : "+p.join(", ")+"\n\nMSE = ?", a:m, tol:0.02,
+     s:"moyenne des (y - ŷ)² sur les 3 points"};}},
+ {id:"front", t:"Frontière de décision", d:"où W^T x = 0", gen:function(){
+   var w0=-rnd(2,12), w1=rnd(1,4);
+   return {q:"h(x) = g(w0 + w1·x1 + w2·x2)\nw0 = "+w0+" , w1 = "+w1+" , w2 = 0\n\nla frontière est en x1 = ?",
+     a:-w0/w1, tol:0.02, s:"w0 + w1·x1 = 0  ->  x1 = "+(-w0)+"/"+w1};}},
+ {id:"grad", t:"Un pas de gradient", d:"w ← w - eta·grad", gen:function(){
+   var w=rnd(1,20), g=rnd(-40,40)/10, e=[0.1,0.2,0.5][rnd(0,2)];
+   return {q:"w = "+w+" , gradient = "+g.toFixed(1)+" , eta = "+e+"\n\nnouveau w = ?",
+     a:w-e*g, tol:0.02, s:w+" - "+e+"×("+g.toFixed(1)+")"};}}
+];
+
+/* ---------- rendu ---------- */
+var VIEW="ch0", cur=0;
+function nav(){
+  var r=document.querySelector(".rail");
+  var h='<div class="brand">IAML<small>rattrapage · 30 min</small></div>';
+  h+='<div><div class="navsec">Réviser</div><div class="nav" id="navch"></div></div>';
+  h+='<div><div class="navsec">S\'entraîner</div><div class="nav" id="navtool"></div></div>';
+  h+='<div class="railfoot"><div class="k"></div><button class="linkbtn">Tout réinitialiser</button></div>';
+  r.innerHTML=h;
+  var nc=r.querySelector("#navch");
+  CH.forEach(function(c,i){
+    var b=el('<button type="button"><span class="n">'+c.num+'</span><span>'+esc(c.title)+
+             '</span><span class="sc"></span></button>');
+    b.addEventListener("click",function(){ go("ch"+i); });
+    nc.appendChild(b);
+  });
+  var nt=r.querySelector("#navtool");
+  [["bilan","Bilan de l'examen"],["drill","Calculs minutés"],["exam","Examen blanc 30 min"],
+   ["fiche","Fiche A4"]].forEach(function(t){
+    var b=el('<button type="button"><span class="n">›</span><span>'+t[1]+'</span></button>');
+    b.addEventListener("click",function(){ go(t[0]); });
+    nt.appendChild(b);
+  });
+  r.querySelector(".linkbtn").addEventListener("click",function(){
+    if(!window.confirm("Effacer toute la progression ?")) return;
+    state={ans:{},drills:{}}; save(); go(VIEW);
+  });
+  paintNav();
+}
+function paintNav(){
+  var bs=document.querySelectorAll("#navch button");
+  CH.forEach(function(c,i){
+    bs[i].setAttribute("aria-current", VIEW==="ch"+i?"true":"false");
+    var got=0,tot=0;
+    c.quiz.forEach(function(q){ tot++; if(state.ans[q.id]!==undefined) got+=grade(q,state.ans[q.id]); });
+    bs[i].querySelector(".sc").textContent=(Math.round(got*10)/10)+"/"+tot;
+  });
+  document.querySelectorAll("#navtool button").forEach(function(b,j){
+    b.setAttribute("aria-current", VIEW===["bilan","drill","exam","fiche"][j]?"true":"false");
+  });
+  var g=0,t=0;
+  ALLQ.forEach(function(q){ t++; if(state.ans[q.id]!==undefined) g+=grade(q,state.ans[q.id]); });
+  document.querySelector(".railfoot .k").innerHTML="<b>"+(Math.round(g*10)/10)+"</b> / "+t+" points de quiz";
+}
+function go(v){ VIEW=v; render(); paintNav(); window.scrollTo(0,0); }
+
+function hero(eyebrow,title,sub,blurb){
+  return '<header class="hero"><div class="eyebrow">'+esc(eyebrow)+'</div><h1>'+esc(title)+
+    '</h1>'+(sub?'<p class="sub">'+esc(sub)+'</p>':'')+
+    (blurb?'<p class="blurb">'+esc(blurb)+'</p>':'')+'</header>';
+}
+var KINDS={def:"définition",thm:"à retenir",algo:"algorithme",warn:"piège"};
+
+function render(){
+  var st=document.querySelector(".stage");
+  if(VIEW.indexOf("ch")===0){ renderChapter(st, parseInt(VIEW.slice(2),10)); }
+  else if(VIEW==="bilan") renderBilan(st);
+  else if(VIEW==="drill") renderDrills(st);
+  else if(VIEW==="exam") renderExam(st);
+  else if(VIEW==="fiche") renderFiche(st);
+}
+
+function renderChapter(st,i){
+  cur=i; var c=CH[i];
+  st.innerHTML=hero("Chapitre "+c.num,c.title,c.subtitle,c.blurb)+
+   '<div class="tabs"><button data-t="n">Fiches<span class="c">'+
+     c.notions.filter(function(x){return !x.section;}).length+'</span></button>'+
+   '<button data-t="q">Questions<span class="c">'+c.quiz.length+'</span></button></div>'+
+   '<section class="panel" data-p="n"></section><section class="panel" data-p="q"></section>';
+  st.querySelectorAll(".tabs button").forEach(function(b){
+    b.addEventListener("click",function(){ tab(b.dataset.t); });
+  });
+  notions(c, st.querySelector('[data-p="n"]'));
+  questions(c.quiz, st.querySelector('[data-p="q"]'), false);
+  tab("n");
+}
+function tab(t){
+  var st=document.querySelector(".stage");
+  st.querySelectorAll(".tabs button").forEach(function(b){
+    b.setAttribute("aria-selected", b.dataset.t===t?"true":"false"); });
+  st.querySelectorAll(".panel").forEach(function(p){ p.hidden=p.dataset.p!==t; });
+}
+
+function notions(c,box){
+  var w=el('<div class="notions"></div>');
+  c.notions.forEach(function(n){
+    if(n.section){ w.appendChild(el('<div class="nsec"><h2>'+esc(n.section)+'</h2>'+
+      (n.intro?'<p>'+esc(n.intro)+'</p>':'')+'<div class="rule"></div></div>')); return; }
+    var h='<article class="notion '+n.kind+'"><span class="kind">'+(KINDS[n.kind]||n.kind)+
+      '</span><h3>'+n.title+'</h3>';
+    if(n.lead) h+='<p class="lead">'+n.lead+'</p>';
+    if(n.body) h+='<div class="nbody">'+n.body+'</div>';
+    if(n.formula) h+='<div class="formula">'+n.formula+'</div>';
+    if(n.fig&&FIG[n.fig]) h+='<div class="nfig">'+FIG[n.fig]()+'</div>';
+    if(n.ex) h+='<div class="nex"><div class="lab">exemple</div><pre>'+esc(n.ex)+'</pre></div>';
+    h+='</article>';
+    var a=el(h);
+    if(n.see&&n.see.length){
+      var s=el('<div class="see"><span class="lbl">questions</span></div>');
+      n.see.forEach(function(id){
+        var b=el('<button type="button">'+id+'</button>');
+        b.addEventListener("click",function(){ tab("q"); jump(id); });
+        s.appendChild(b);
+      });
+      a.appendChild(s);
+    }
+    w.appendChild(a);
+  });
+  box.innerHTML=""; box.appendChild(w);
+}
+function jump(id){
+  var n=document.querySelector('[data-qid="'+id+'"]');
+  if(n) n.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function questions(list, box, examMode, onAnswer){
+  var w=el('<div class="qwrap"></div>');
+  if(!examMode){
+    var tot=list.length, done=0, pts=0;
+    list.forEach(function(q){ if(state.ans[q.id]!==undefined){ done++; pts+=grade(q,state.ans[q.id]); } });
+    var bar=el('<div class="bar"></div>');
+    bar.innerHTML="<b>"+(Math.round(pts*10)/10)+"</b> / "+tot+" points · "+done+" question"+
+      (done>1?"s":"")+" traitée"+(done>1?"s":"")+" sur "+tot;
+    w.appendChild(bar);
+  }
+  list.forEach(function(q,i){ w.appendChild(qCard(q,i,examMode,onAnswer)); });
+  box.innerHTML=""; box.appendChild(w);
+}
+
+function qCard(q,i,examMode,onAnswer){
+  var given=examMode?undefined:state.ans[q.id];
+  var sel = (q.type==="multi") ? (Array.isArray(given)?given.slice():[]) :
+            (q.type==="single") ? (given===undefined?null:given) : (given===undefined?"":given);
+  var locked = !examMode && given!==undefined;
+  var card=el('<article class="q'+(locked?" done":"")+'" data-qid="'+q.id+'"></article>');
+  var head='<div class="qh"><span class="qn">'+(i+1)+'</span>'+
+    (q.exam?'<span class="tagx ex">tombé à l\'examen</span>':'')+
+    '<span class="tagx">'+esc(q.topic)+'</span></div>'+
+    '<div class="qt">'+esc(q.q)+'</div>';
+  if(q.type==="multi") head+='<div class="multi-hint">plusieurs réponses · '+q.answer.length+
+    ' à cocher · une mauvaise case en annule une bonne</div>';
+  card.innerHTML=head;
+
+  var body=document.createElement("div");
+  card.appendChild(body);
+
+  function paint(){
+    body.innerHTML="";
+    if(q.type==="num"){
+      var box2=el('<div class="numin"><input type="text" inputmode="decimal" placeholder="ex : 0.71"></div>');
+      var inp=box2.querySelector("input");
+      inp.value = sel===null?"":sel;
+      inp.disabled=locked;
+      inp.addEventListener("input",function(){ sel=inp.value; });
+      inp.addEventListener("keydown",function(e){ if(e.key==="Enter"&&!locked) commit(); });
+      body.appendChild(box2);
+    } else {
+      var ch=el('<div class="ch"></div>');
+      q.choices.forEach(function(txt,j){
+        var isSel = q.type==="multi" ? sel.indexOf(j)>=0 : sel===j;
+        var b=el('<button type="button"><span class="bx">'+
+          (q.type==="multi"?(isSel?"[x]":"[ ]"):(isSel?"(o)":"( )"))+'</span><span>'+esc(txt)+'</span></button>');
+        if(isSel) b.classList.add("sel");
+        if(locked){
+          b.disabled=true;
+          var correct = q.type==="multi" ? q.answer.indexOf(j)>=0 : q.answer===j;
+          if(correct&&isSel) b.classList.add("good");
+          else if(!correct&&isSel) b.classList.add("bad");
+          else if(correct&&!isSel) b.classList.add("miss");
+        } else {
+          b.addEventListener("click",function(){
+            if(q.type==="multi"){
+              var k=sel.indexOf(j); if(k>=0) sel.splice(k,1); else sel.push(j);
+            } else { sel=j; }
+            paint();
+          });
+        }
+        ch.appendChild(b);
+      });
+      body.appendChild(ch);
+    }
+    if(!locked){
+      var a=el('<div class="act"><button class="btn p">Valider</button></div>');
+      a.querySelector("button").addEventListener("click",commit);
+      body.appendChild(a);
+    } else {
+      var sc=grade(q,given);
+      var cls=sc>=0.999?"ok":(sc>0?"part":"no");
+      var lab=sc>=0.999?"correct — 1,00 point":
+              (sc>0?"partiel — "+sc.toFixed(2).replace(".",",")+" point":"0 point");
+      body.appendChild(el('<div class="score '+cls+'">'+lab+'</div>'));
+      body.appendChild(el('<div class="why"><b>Pourquoi.</b> '+esc(q.why)+'</div>'));
+      if(q.type==="num") body.appendChild(el('<div class="score ok">réponse attendue : '+
+        String(q.answer).replace(".",",")+'</div>'));
+    }
+  }
+  function commit(){
+    var val = q.type==="multi"?sel.slice():sel;
+    if(q.type==="single"&&val===null) return;
+    if(examMode){ if(onAnswer) onAnswer(q,val); return; }
+    state.ans[q.id]=val; given=val; locked=true; save();
+    card.classList.add("done"); paint(); paintNav();
+    var b=document.querySelector(".bar");
+    if(b){ var c=CH[cur]; var tp=0,dn=0;
+      c.quiz.forEach(function(x){ if(state.ans[x.id]!==undefined){ dn++; tp+=grade(x,state.ans[x.id]); } });
+      b.innerHTML="<b>"+(Math.round(tp*10)/10)+"</b> / "+c.quiz.length+" points · "+dn+
+        " question"+(dn>1?"s":"")+" traitée"+(dn>1?"s":"")+" sur "+c.quiz.length; }
+  }
+  paint();
+  return card;
+}
+
+/* ---------- bilan ---------- */
+function renderBilan(st){
+  var e=EXAM;
+  var h=hero("Diagnostic","Ce que la copie du 29 juin raconte",
+    e.note+"/20 — "+e.points+" points sur "+e.total+", en "+e.duree,
+    "Le détail question par question, et où sont partis les points. Le barème Moodle se reconstitue "+
+    "exactement : "+e.regle);
+  h+='<div class="qwrap">';
+  h+='<div class="result"><div class="big">'+String(e.note).replace(".",",")+
+     '<small> / 20</small></div>';
+  h+='<table class="tbl"><thead><tr><th>Thème</th><th style="text-align:right">Points</th>'+
+     '<th style="text-align:right">Obtenus</th><th style="text-align:right">Perdus</th>'+
+     '<th style="width:120px">Questions</th></tr></thead><tbody>';
+  var srt=e.themes.slice().sort(function(a,b){ return (b.p-b.g)-(a.p-a.g); });
+  srt.forEach(function(t){
+    var lost=t.p-t.g, w=Math.round(lost/6*110);
+    var cls=lost>=3?"lo":(lost>=1.5?"mid":"");
+    h+='<tr><td>'+esc(t.t)+'</td><td class="num">'+t.p+'</td><td class="num">'+
+       t.g.toFixed(2).replace(".",",")+'</td><td class="num">'+lost.toFixed(2).replace(".",",")+
+       '</td><td><span class="pill '+cls+'" style="width:'+Math.max(4,w)+'px"></span></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  e.lecons.forEach(function(l){
+    h+='<div class="lesson"><h3>'+esc(l.titre)+'</h3><p>'+esc(l.detail)+'</p>'+
+       '<div class="gain">gain potentiel : +'+String(l.gain).replace(".",",")+' points sur 20</div></div>';
+  });
+  h+='<div class="result"><h2 style="font-size:20px;margin-bottom:10px">Le plan pour 30 minutes</h2>'+
+     '<table class="tbl"><thead><tr><th>Ordre</th><th>Ce que tu corriges</th>'+
+     '<th style="text-align:right">Note visée</th></tr></thead><tbody>'+
+     '<tr><td class="num">1</td><td>Cocher toutes les bonnes cases des QCM (3 sur 5, très souvent)</td><td class="num">8,0</td></tr>'+
+     '<tr><td class="num">2</td><td>Accuracy, précision, rappel — trois divisions</td><td class="num">9,5</td></tr>'+
+     '<tr><td class="num">3</td><td>Les deux colonnes sur/sous-apprentissage</td><td class="num">12,8</td></tr>'+
+     '<tr><td class="num">4</td><td>Sigmoïde : h = proba du 1, et h = 0,5 quand z = 0</td><td class="num">14,3</td></tr>'+
+     '<tr><td class="num">5</td><td>Supervisé / non supervisé : y a-t-il des labels ?</td><td class="num">15,8</td></tr>'+
+     '<tr><td class="num">6</td><td>Couches de sortie : sigmoïde / softmax / identité</td><td class="num">16,8</td></tr>'+
+     '</tbody></table></div>';
+  h+='</div>';
+  st.innerHTML=h;
+}
+
+/* ---------- drills ---------- */
+function renderDrills(st){
+  st.innerHTML=hero("Entraînement","Calculs minutés",
+    "Les questions numériques de l'examen, régénérées à l'infini",
+    "Trois questions de calcul t'ont coûté 3 points, et ce sont des divisions. "+
+    "Chaque exercice tire de nouveaux chiffres à chaque fois : enchaîne jusqu'à ce que ce soit automatique.")+
+    '<div class="dgrid" id="dg"></div>';
+  var g=st.querySelector("#dg");
+  DRILLS.forEach(function(d){ g.appendChild(drillCard(d)); });
+}
+function drillCard(d){
+  var card=el('<article class="drill"><h3>'+esc(d.t)+'</h3><div class="d">'+esc(d.d)+'</div></article>');
+  var body=document.createElement("div"); card.appendChild(body);
+  var st=state.drills[d.id]||{ok:0,ko:0};
+  var cur=null;
+  function fresh(){ cur=d.gen(); paint(false,null); }
+  function paint(checked,good){
+    body.innerHTML="";
+    body.appendChild(el('<div class="dq">'+esc(cur.q)+'</div>'));
+    var row=el('<div class="numin"><input type="text" inputmode="decimal" placeholder="ta réponse"></div>');
+    var inp=row.querySelector("input");
+    body.appendChild(row);
+    var act=el('<div class="act"></div>');
+    var bv=el('<button class="btn p">Vérifier</button>');
+    var bn=el('<button class="btn">Nouveau tirage</button>');
+    act.appendChild(bv); act.appendChild(bn);
+    act.appendChild(el('<span class="streak">'+st.ok+' réussis · '+st.ko+' ratés</span>'));
+    body.appendChild(act);
+    if(checked){
+      var msg = good
+        ? '<span class="ok">✓ correct</span>'
+        : '<span class="no">✗ attendu : '+(Math.round(cur.a*1000)/1000).toString().replace(".",",")+'</span>';
+      body.appendChild(el('<div class="dstate">'+msg+' &nbsp;·&nbsp; '+esc(cur.s)+'</div>'));
+      bv.disabled=true;
+    }
+    bv.addEventListener("click",function(){
+      var v=parseFloat(inp.value.replace(",","."));
+      if(isNaN(v)) return;
+      var ok=Math.abs(v-cur.a)<=(cur.tol||0.005);
+      if(ok) st.ok++; else st.ko++;
+      state.drills[d.id]=st; save();
+      paint(true,ok);
+    });
+    bn.addEventListener("click",fresh);
+    inp.addEventListener("keydown",function(e){ if(e.key==="Enter"&&!bv.disabled) bv.click(); });
+    if(!checked) setTimeout(function(){ },0);
+  }
+  fresh();
+  return card;
+}
+
+/* ---------- examen blanc ---------- */
+var examState=null;
+function renderExam(st){
+  if(!examState){ examIntro(st); return; }
+  if(examState.finished){ examResult(st); return; }
+  examRun(st);
+}
+function examIntro(st){
+  st.innerHTML=hero("Simulation","Examen blanc — 30 minutes",
+    "20 questions tirées au sort, barème Moodle réel",
+    "Mêmes règles que le vrai : une bonne case rapporte 1/n des points, une mauvaise en annule une, "+
+    "et le score d'une question ne descend jamais sous zéro. À la fin, tu obtiens une note sur 20 "+
+    "et le détail par thème.")+
+    '<div class="qwrap"><div class="result">'+
+    '<p style="color:var(--dim);margin:0 0 16px">Au vrai examen tu as mis 51 minutes pour 36 questions. '+
+    'Ici tu as 30 minutes pour 20 : c\'est le rythme du rattrapage, environ 1 min 30 par question.</p>'+
+    '<div class="act"><button class="btn p" id="startx">Démarrer les 30 minutes</button></div></div></div>';
+  st.querySelector("#startx").addEventListener("click",function(){
+    var pool=ALLQ.slice();
+    for(var i=pool.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=pool[i]; pool[i]=pool[j]; pool[j]=t; }
+    var pick=[];
+    pool.forEach(function(q){ if(pick.length<20 && q.exam) pick.push(q); });
+    pool.forEach(function(q){ if(pick.length<20 && !q.exam) pick.push(q); });
+    examState={qs:pick, given:{}, idx:0, t0:Date.now(), finished:false};
+    render();
+  });
+}
+function examRun(st){
+  st.innerHTML='<div class="exambox"><div class="timer"><span class="t" id="tt">30:00</span>'+
+    '<span class="prog"><i id="pp" style="width:100%"></i></span>'+
+    '<span class="meta" id="mm"></span>'+
+    '<button class="btn" id="fin">Terminer</button></div>'+
+    '<div id="qz"></div></div>';
+  var box=st.querySelector("#qz");
+  questions(examState.qs, box, true, function(q,val){
+    examState.given[q.id]=val;
+    var n=document.querySelector('[data-qid="'+q.id+'"]');
+    if(n){ n.classList.add("done");
+      var b=n.querySelector(".act .btn"); if(b){ b.textContent="Réponse enregistrée"; b.disabled=true; }
+      n.querySelectorAll(".ch button").forEach(function(x){ x.disabled=true; });
+      var inp=n.querySelector(".numin input"); if(inp) inp.disabled=true; }
+    meta();
+  });
+  st.querySelector("#fin").addEventListener("click",function(){ endExam(); });
+  function meta(){
+    var d=Object.keys(examState.given).length;
+    var m=document.querySelector("#mm"); if(m) m.textContent=d+" / "+examState.qs.length+" répondues";
+  }
+  meta();
+  if(examState.timer) clearInterval(examState.timer);
+  examState.timer=setInterval(function(){
+    if(!examState||examState.finished){ clearInterval(examState.timer); return; }
+    var left=30*60-Math.floor((Date.now()-examState.t0)/1000);
+    if(left<=0){ endExam(); return; }
+    var t=document.querySelector("#tt"), p=document.querySelector("#pp");
+    if(!t){ clearInterval(examState.timer); return; }
+    t.textContent=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+    if(left<300) t.classList.add("low");
+    p.style.width=(left/(30*60)*100)+"%";
+  },1000);
+}
+function endExam(){
+  if(examState.timer) clearInterval(examState.timer);
+  examState.finished=true;
+  examState.secs=Math.min(30*60,Math.floor((Date.now()-examState.t0)/1000));
+  render();
+}
+function examResult(st){
+  var qs=examState.qs, pts=0;
+  var byTopic={};
+  qs.forEach(function(q){
+    var g=grade(q, examState.given[q.id]);
+    pts+=g;
+    if(!byTopic[q.topic]) byTopic[q.topic]={p:0,g:0};
+    byTopic[q.topic].p++; byTopic[q.topic].g+=g;
+  });
+  var note=pts/qs.length*20;
+  var mm=Math.floor(examState.secs/60), ss=examState.secs%60;
+  var h=hero("Résultat","Examen blanc terminé","",
+    "Note calculée avec le barème Moodle réel, sur les "+qs.length+" questions tirées.");
+  h+='<div class="qwrap"><div class="result"><div class="big">'+
+     note.toFixed(2).replace(".",",")+'<small> / 20</small></div>'+
+     '<p style="color:var(--dim);margin:10px 0 0;font-family:var(--mono);font-size:12px">'+
+     (Math.round(pts*100)/100).toString().replace(".",",")+' / '+qs.length+' points · durée '+
+     mm+' min '+String(ss).padStart(2,"0")+' s</p>';
+  h+='<table class="tbl"><thead><tr><th>Thème</th><th style="text-align:right">Questions</th>'+
+     '<th style="text-align:right">Points</th><th style="text-align:right">Réussite</th></tr></thead><tbody>';
+  Object.keys(byTopic).sort(function(a,b){
+    return byTopic[a].g/byTopic[a].p - byTopic[b].g/byTopic[b].p; }).forEach(function(t){
+    var o=byTopic[t], r=o.g/o.p*100;
+    h+='<tr><td>'+esc(t)+'</td><td class="num">'+o.p+'</td><td class="num">'+
+       (Math.round(o.g*100)/100).toString().replace(".",",")+'</td><td class="num">'+
+       Math.round(r)+' %</td></tr>';
+  });
+  h+='</tbody></table><div class="act" style="margin-top:18px">'+
+     '<button class="btn p" id="again">Refaire un tirage</button>'+
+     '<button class="btn" id="corr">Voir la correction</button></div></div><div id="cbox"></div></div>';
+  st.innerHTML=h;
+  st.querySelector("#again").addEventListener("click",function(){ examState=null; render(); });
+  st.querySelector("#corr").addEventListener("click",function(){
+    var cb=st.querySelector("#cbox");
+    if(cb.innerHTML){ cb.innerHTML=""; return; }
+    var saved={}; Object.keys(state.ans).forEach(function(k){ saved[k]=state.ans[k]; });
+    qs.forEach(function(q){ if(examState.given[q.id]!==undefined) state.ans[q.id]=examState.given[q.id]; });
+    questions(qs, cb, false);
+    Object.keys(saved).length; save(); paintNav();
+  });
+}
+
+/* ---------- fiche A4 ---------- */
+function renderFiche(st){
+  st.innerHTML=hero("Antisèche","Fiche A4 recto",
+    "Le modèle à recopier à la main",
+    "Les photocopies sont interdites : cette page est un modèle à recopier. Tout ce qui t'a coûté "+
+    "des points y est, dans l'ordre de rentabilité. Imprime-la pour l'avoir sous les yeux pendant "+
+    "que tu recopies, ou lis-la directement.")+
+    '<div class="a4wrap"><div class="act noprint" style="margin-bottom:14px">'+
+    '<button class="btn p" onclick="window.print()">Imprimer le modèle</button></div>'+
+    '<div class="a4">'+FICHE+'</div></div>';
+}
+
+var FICHE = [
+'<h2>1 · Type de problème</h2>',
+'<ul><li><b>Régression</b> : sortie = nombre continu (prix, nb d\'actions, température)</li>',
+'<li><b>Binaire</b> : 2 classes · <b>Multiclasse</b> : ≥ 3 classes</li>',
+'<li><b>Supervisé</b> = on a les y (prédire) · <b>Non supervisé</b> = pas de y (découvrir, regrouper)</li></ul>',
+'<div class="box"><b>Non supervisé :</b> PCA, K-means, DBSCAN, Affinity Propagation<br>',
+'<b>Supervisé :</b> LDA, NCA, rég. linéaire, rég. logistique, arbres, SVM</div>',
+
+'<h2>2 · Sur / sous-apprentissage</h2>',
+'<table><tr><th></th><th>train</th><th>test</th></tr>',
+'<tr><td>sous-app.</td><td>mauvais</td><td>mauvais</td></tr>',
+'<tr><td>sur-app.</td><td>excellent</td><td>mauvais</td></tr>',
+'<tr><td>bon</td><td>bon</td><td>bon</td></tr></table>',
+'<div class="warn">Dans les <b>deux</b> cas → mauvaise généralisation (2 cases à cocher).</div>',
+'<table><tr><th>contre SOUS-app.</th><th>contre SUR-app.</th></tr>',
+'<tr><td>+ complexité</td><td>modèle + simple</td></tr>',
+'<tr><td>+ features</td><td>− features</td></tr>',
+'<tr><td><b>−</b> lambda</td><td><b>+</b> lambda</td></tr>',
+'<tr><td>+ époques</td><td>early stopping</td></tr>',
+'<tr><td>—</td><td>+ de données</td></tr></table>',
+'<div class="warn">+ de données et early stopping n\'aident <b>pas</b> le sous-app.</div>',
+
+'<h2>3 · Validation croisée (k plis)</h2>',
+'<ul><li>k tours : train sur k−1 plis, test sur 1</li>',
+'<li>N exemples, k plis → train = N(k−1)/k, test = N/k par tour</li>',
+'<li><b>Erreur calculée sur les N exemples au total</b> (chacun testé 1 fois)</li></ul>',
+
+'<h2>4 · Régression linéaire</h2>',
+'<ul><li>f(x) = w1·x + w0 · coût <span class="f">J = moy (f(x)−y)²</span></li>',
+'<li>J = 0 ⟺ tous les points sont <b>exactement alignés</b></li>',
+'<li>y décroît quand x croît ⟹ w1 &lt; 0</li>',
+'<li>Métrique : <b>MSE</b> (pas de matrice de confusion !)</li></ul>',
+'<h3>Descente de gradient</h3>',
+'<ul><li><span class="f">w ← w − eta·∇J</span></li>',
+'<li>coût qui <b>augmente</b> ⟹ eta trop grand</li>',
+'<li>eta très petit ⟹ lent (pas « plus rapide »)</li>',
+'<li>départ au minimum ⟹ rien ne bouge</li></ul>',
+
+'<h2>5 · Régression logistique</h2>',
+'<ul><li><span class="f">h = 1/(1+e^(−WᵀX))</span> ∈ ]0 ; 1[</li>',
+'<li><b>h = P(y = 1 | x)</b> · P(y=0) = 1 − h</li>',
+'<li><b>WᵀX = 0 ⟺ h = 0,5</b> ⟹ frontière de décision</li>',
+'<li>WᵀX ≫ 0 → h → 1 · WᵀX ≪ 0 → h → 0 (jamais −1)</li>',
+'<li>y=1 bien classé ⟹ h &gt; 0,5 ⟹ h &gt; 1−h</li>',
+'<li>w0=−6, w1=1, w2=0 → frontière x1 = 6, classe 1 à droite</li></ul>',
+
+'<h2>6 · Matrice de confusion</h2>',
+'<table><tr><th></th><th>réel +</th><th>réel −</th></tr>',
+'<tr><th>prédit +</th><td>TP</td><td>FP</td></tr>',
+'<tr><th>prédit −</th><td>FN</td><td>TN</td></tr></table>',
+'<div class="box"><span class="f">accuracy = (TP+TN)/total</span><br>',
+'<span class="f">précision = TP/(TP+FP)</span> ← ligne<br>',
+'<span class="f">rappel = TP/(TP+FN)</span> ← colonne<br>',
+'<span class="f">F1 = 2·P·R/(P+R)</span></div>',
+'<div class="warn"><b>Métriques :</b> régression → MSE. Classification → confusion + ROC + précision/rappel (3 cases).</div>',
+
+'<h2>7 · Clustering</h2>',
+'<h3>K-means</h3>',
+'<ul><li>VRAI : K fixé à l\'avance · dépend de l\'initialisation · minimise la variance intra-cluster</li>',
+'<li>FAUX : optimum global · robuste aux aberrants</li>',
+'<li>Suppose : sphérique, compact, convexe</li></ul>',
+'<h3>DBSCAN</h3>',
+'<ul><li>Paramètres : <b>ε</b> (rayon), <b>m</b> (voisins min)</li>',
+'<li>Points : <b>central</b> (≥ m voisins) · <b>frontière</b> · <b>bruit</b></li>',
+'<li>VRAI : formes arbitraires · détecte le bruit · densité</li>',
+'<li>Pas besoin de fixer le nb de clusters</li>',
+'<li>ε trop petit → plein de groupes · trop grand → 1 seul</li></ul>',
+'<h3>Affinity Propagation</h3>',
+'<ul><li>Messages : responsabilité R(i,k), disponibilité A(i,k)</li>',
+'<li>Diagonale de S = <b>préférences</b> (souvent la médiane)</li>',
+'<li>Nb de clusters non fixé · coût quadratique</li></ul>',
+
+'<h2>8 · PCA</h2>',
+'<ul><li>Standardiser → covariance → valeurs/vecteurs propres</li>',
+'<li>Valeurs propres = information retenue par axe</li>',
+'<li>Features <b>décorrélées</b> (≠ indépendantes !)</li>',
+'<li>Résoluble par <b>SVD</b> sans calculer la covariance</li>',
+'<li>Sert à : <b>réduire</b> + <b>visualiser 2D/3D</b> (pas prédire, pas regrouper)</li>',
+'<li>Garder 95 % de variance ⟺ <span class="f">erreur reconstruction ≤ 0,05</span></li></ul>',
+
+'<h2>9 · Arbres de décision</h2>',
+'<ul><li>Seuils sur les variables, partition récursive de l\'espace</li>',
+'<li>Numérique <b>et</b> catégoriel · classification <b>et</b> régression</li>',
+'<li>Interprétables : chemin racine→feuille = règle</li>',
+'<li><b>Pas</b> de normalisation, <b>pas</b> de gradient, <b>pas</b> linéaires</li></ul>',
+'<div class="box"><b>Critères :</b> Gini <span class="f">1−Σp²</span> · entropie <span class="f">−Σp·log₂p</span> · réduction de variance<br>',
+'(la perte logistique n\'en est pas un)<br>',
+'nœud pur → 0 · [5,5] → Gini 0,5 et H 1</div>',
+'<div class="warn"><b>Overfitting causé par :</b> arbre très profond, aucun min par feuille.<br>',
+'<b>Combattu par :</b> max_depth, pruning, min_samples_split.</div>',
+
+'<h2>10 · Réseaux de neurones</h2>',
+'<ul><li>Activation = <b>non-linéarité</b> (sinon = 1 seule couche linéaire)</li></ul>',
+'<table><tr><th>tâche</th><th>dernière couche</th></tr>',
+'<tr><td>binaire</td><td><b>sigmoïde</b></td></tr>',
+'<tr><td>multiclasse</td><td><b>softmax</b></td></tr>',
+'<tr><td>régression</td><td><b>identité</b></td></tr></table>',
+'<div class="warn">ReLU / tanh = couches <b>cachées</b> uniquement.</div>',
+
+'<h2>11 · Stratégie QCM</h2>',
+'<div class="box"><b>score = (bonnes − mauvaises) / nb de bonnes</b>, minimum 0</div>',
+'<ul><li>Choix <b>unique</b> : jamais de blanc, une erreur ne coûte rien de plus</li>',
+'<li>Choix <b>multiple</b> : très souvent <b>3 bonnes sur 5</b></li>',
+'<li>Cocher 1 sur 3 = 0,33 seulement → cocher tout ce dont tu es sûr</li>',
+'<li>Une mauvaise case <b>annule</b> une bonne → ne pas cocher au hasard</li>',
+'<li>« Aucune de ces réponses » : presque jamais la bonne</li>',
+'<li>La « courbe JAZZ » n\'existe pas</li></ul>'
+].join("");
+
+nav(); go("bilan");
+})();
+</script>
+</body>
+</html>
