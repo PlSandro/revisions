@@ -62,13 +62,13 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 
 /* fiches */
 .notions{display:grid;gap:15px;max-width:800px}
-.nsec{margin:24px 0 2px}
+.nsec{margin:24px 0 2px;min-width:0}
 .notions>.nsec:first-child{margin-top:0}
 .nsec h2{font-size:22px;margin-bottom:6px}
 .nsec p{margin:0;color:var(--faint);font-size:14px;max-width:62ch}
 .nsec .rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-top:14px}
 .notion{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:17px 19px;
-  border-left:3px solid var(--faint)}
+  border-left:3px solid var(--faint);min-width:0}
 .notion h3{font-family:var(--sans);font-size:15px;font-weight:650;margin-bottom:8px}
 .notion .kind{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
   display:block;margin-bottom:6px}
@@ -100,7 +100,7 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 
 /* questions */
 .qwrap{display:grid;gap:12px;max-width:790px}
-.q{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0}
 .q.done{border-color:#2B4A3C}
 .qh{display:flex;gap:10px;align-items:baseline;margin-bottom:6px}
 .qn{font-family:var(--mono);font-size:10.5px;color:var(--faint);flex:0 0 auto}
@@ -140,12 +140,12 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 .score{font-family:var(--mono);font-size:11.5px;margin-top:9px}
 .score.ok{color:var(--good)}.score.part{color:var(--warn)}.score.no{color:var(--bad)}
 .bar{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:16px;
-  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px}
+  background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-width:0}
 .bar b{color:var(--acc)}
 
 /* drills */
 .dgrid{display:grid;gap:12px;max-width:790px}
-.drill{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.drill{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0}
 .drill h3{font-family:var(--sans);font-size:14.5px;font-weight:650;margin-bottom:4px}
 .drill .d{color:var(--faint);font-size:12.5px;margin-bottom:12px}
 .dstate{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
@@ -163,7 +163,8 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 .timer .prog{flex:1;height:5px;background:var(--card2);border-radius:99px;overflow:hidden}
 .timer .prog i{display:block;height:100%;background:var(--acc);transition:width .4s linear}
 .timer .meta{font-family:var(--mono);font-size:11px;color:var(--faint)}
-.result{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:18px}
+.result{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px;
+  margin-bottom:18px;min-width:0;overflow-x:auto}
 .result .big{font-family:var(--serif);font-size:44px;color:var(--acc);line-height:1}
 .result .big small{font-size:18px;color:var(--faint)}
 .tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}
@@ -177,7 +178,7 @@ code{font-family:var(--mono);font-size:.9em;background:#1C2530;padding:.1em .35e
 
 /* bilan */
 .lesson{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--warn);
-  border-radius:8px;padding:16px 19px;margin-bottom:12px}
+  border-radius:8px;padding:16px 19px;margin-bottom:12px;min-width:0}
 .lesson h3{font-family:var(--sans);font-size:14.5px;font-weight:650;margin-bottom:7px}
 .lesson p{margin:0;color:var(--dim);font-size:14px}
 .lesson .gain{font-family:var(--mono);font-size:11px;color:var(--good);margin-top:9px}
