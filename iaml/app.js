@@ -85,6 +85,21 @@ FIG.kfold=function(){var s=sv(430,150),i,j;
   }
   s+=tx(215,142,"chaque exemple testé exactement 1 fois  ->  1000 au total",GO,10);
   return s+"</svg>";};
+FIG.linreg=function(){var s=sv(430,150);
+  s+=ln(30,130,410,130,DL,1)+ln(30,18,30,130,DL,1);
+  s+=tx(405,144,"x (surface)",W,9.5,"end")+tx(38,24,"y (prix)",W,9.5,"start");
+  function lineY(x){ return 122-(x-30)*92/375; }
+  s+=ln(30,lineY(30),400,lineY(400),A1,2.2);
+  var pts=[[60,101],[95,113],[135,78],[175,96],[215,66],[255,81],[295,41],[335,55],[375,26]];
+  pts.forEach(function(p){
+    var ly=lineY(p[0]);
+    s+='<line x1="'+p[0]+'" y1="'+p[1]+'" x2="'+p[0]+'" y2="'+ly.toFixed(1)+
+       '" stroke="'+WA+'" stroke-width="1" stroke-dasharray="2 2"/>';
+    s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4.5" fill="'+A2+'"/>';
+  });
+  s+=tx(295,29,"erreur (résidu)",WA,9);
+  s+=tx(215,10,"chaque point = un exemple ; la droite minimise la somme des erreurs²",W,9.5);
+  return s+"</svg>";};
 FIG.gradient=function(){var s=sv(430,150);
   s+='<path d="M 30 30 Q 215 175 400 30" fill="none" stroke="'+DL+'" stroke-width="1.6"/>';
   [[60,64],[110,102],[160,122],[200,128]].forEach(function(p,i){
