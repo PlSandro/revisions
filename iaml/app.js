@@ -271,7 +271,8 @@ function nav(){
   h+='<div class="brand">IAML<small>rattrapage · 30 min</small></div>';
   h+='<div><div class="navsec">Réviser</div><div class="nav" id="navch"></div></div>';
   h+='<div><div class="navsec">S\'entraîner</div><div class="nav" id="navtool"></div></div>';
-  h+='<div class="railfoot"><div class="k"></div><button class="linkbtn">Tout réinitialiser</button></div>';
+  h+='<div class="railfoot"><div class="k"></div><button class="linkbtn">Tout réinitialiser</button>'+
+     '<button type="button" class="theme-toggle" onclick="toggleSiteTheme()">Mode clair / sombre</button></div>';
   r.innerHTML=h;
   var nc=r.querySelector("#navch");
   CH.forEach(function(c,i){

@@ -1,0 +1,46 @@
+/* Shared design tokens + light/dark theme switch for the whole site
+   (index.html, theg.html, iaml/*). One palette, defined once. */
+:root{
+  --bg:#0B0F14; --card:#131A23; --card2:#18212C; --line:#26323F;
+  --ink:#ECEFF3; --dim:#93A0AF; --faint:#5D6C7C;
+  --acc:#5BC8AF; --acc2:#7FB2F0; --warn:#F2A65A; --bad:#F0736A; --good:#7ED9A0; --purple:#B79CF0;
+  --well:#080C11;
+
+  /* theg.html / index.html use a second vocabulary for the same roles */
+  --board:var(--card); --board2:var(--card2); --chalk:var(--ink);
+  --yellow:var(--warn); --cyan:var(--acc2); --magenta:var(--purple);
+  --green:var(--good); --red:var(--bad);
+}
+
+@media (prefers-color-scheme: light){
+  /* No explicit choice saved yet: follow the OS preference. */
+  :root:not([data-theme="dark"]){ --bg:#F6F4EE; --card:#FFFFFF; --card2:#F0EDE4; --line:#DAD6CC;
+    --ink:#20242B; --dim:#5B6472; --faint:#8B8F97;
+    --acc:#0E8E72; --acc2:#2C68B8; --warn:#9C5D0A; --bad:#BD372C; --good:#1C8A4E; --purple:#6B42AE;
+    --well:#ECE8DD;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#F6F4EE; --card:#FFFFFF; --card2:#F0EDE4; --line:#DAD6CC;
+  --ink:#20242B; --dim:#5B6472; --faint:#8B8F97;
+  --acc:#0E8E72; --acc2:#2C68B8; --warn:#9C5D0A; --bad:#BD372C; --good:#1C8A4E; --purple:#6B42AE;
+  --well:#ECE8DD;
+}
+
+.theme-toggle{
+  display:block;background:none;border:1px solid var(--line);border-radius:99px;
+  font-family:var(--mono);font-size:11px;color:var(--dim,var(--faint));
+  padding:5px 11px;margin-top:10px;cursor:pointer;transition:.15s;line-height:1;
+}
+.theme-toggle:hover{color:var(--ink,var(--chalk));border-color:var(--faint)}
+
+/* SVG figures (iaml's FIG object, theg's FIG/NFIG) hardcode their own stroke/
+   fill hex colors rather than using variables — recoloring ~50 draw functions
+   isn't worth it, so adapt them for light mode with a scoped filter instead.
+   Kept narrow (just the <svg>, not the whole page) to avoid a Chromium bug
+   where filter on a large ancestor with GPU-promoted descendants (anything
+   with a transform transition) only partially composites. */
+:root[data-theme="light"] .nfig svg{ filter:invert(0.93) hue-rotate(180deg); }
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .nfig svg{ filter:invert(0.93) hue-rotate(180deg); }
+}

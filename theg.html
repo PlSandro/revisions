@@ -5,23 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>THEG - Théorie des graphes : quiz et exercices Python</title>
 <meta name="description" content="Quiz et exercices Python interactifs sur le cours de théorie des graphes : 56 exercices auto-corrigés, 73 questions.">
+<link rel="stylesheet" href="theme.css">
+<script src="theme.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 :root{
-  --bg:#0A0D12; --board:#111722; --board2:#161E2B; --line:#26303F;
-  --chalk:#EDEAE2; --dim:#8A93A2; --faint:#5A6474;
-  --yellow:#F5D563; --cyan:#6FE3E1; --magenta:#F571C8; --green:#86E08C; --red:#FF7B7B;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
   --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,"SF Mono",SFMono-Regular,"Cascadia Code","JetBrains Mono",Menlo,Consolas,monospace;
   --rail:264px;
+  --well2:#0E141E; --well-ink:#C9D2E0; --tint-acc:#0E2226; --tint-good:#0F1D14; --tint-bad:#1E1214;
+  --tint-warn:#1A1608; --warn-ink:#E5D9AE; --done-line:#2C5238; --bad-line:#4A2228;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --well2:#E5E0D2; --well-ink:#2E3440; --tint-acc:#E2EDF8; --tint-good:#E2F5E8; --tint-bad:#FBE7E5;
+    --tint-warn:#FBF0DC; --warn-ink:#5C4310; --done-line:#9BCBAE; --bad-line:#E8B6B0;
+  }
+}
+:root[data-theme="light"]{
+  --well2:#E5E0D2; --well-ink:#2E3440; --tint-acc:#E2EDF8; --tint-good:#E2F5E8; --tint-bad:#FBE7E5;
+  --tint-warn:#FBF0DC; --warn-ink:#5C4310; --done-line:#9BCBAE; --bad-line:#E8B6B0;
 }
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--chalk);font-family:var(--sans);font-size:15px;line-height:1.65;
   -webkit-font-smoothing:antialiased}
 a{color:var(--cyan)}
-code{font-family:var(--mono);font-size:.9em;background:#1B2434;padding:.1em .35em;border-radius:3px;color:var(--yellow)}
-pre{font-family:var(--mono);font-size:.86em;background:#0C1119;border:1px solid var(--line);
+code{font-family:var(--mono);font-size:.9em;background:var(--board2);padding:.1em .35em;border-radius:3px;color:var(--yellow)}
+pre{font-family:var(--mono);font-size:.86em;background:var(--well);border:1px solid var(--line);
   border-left:2px solid var(--cyan);padding:.8em 1em;border-radius:4px;overflow-x:auto;line-height:1.5}
 pre code{background:none;padding:0;color:inherit}
 h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:.01em;margin:0}
@@ -123,17 +134,17 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .notion.thm{border-left-color:var(--cyan)} .notion.thm .kind{color:var(--cyan)}
 .notion.algo{border-left-color:var(--green)} .notion.algo .kind{color:var(--green)}
 .notion.warn{border-left-color:var(--magenta)} .notion.warn .kind{color:var(--magenta)}
-.notion.idea{border-left-color:#B79CF0} .notion.idea .kind{color:#B79CF0}
+.notion.idea{border-left-color:var(--purple)} .notion.idea .kind{color:var(--purple)}
 
-.formula{margin:14px 0;padding:13px 16px;background:#0C1119;border:1px solid var(--line);
+.formula{margin:14px 0;padding:13px 16px;background:var(--well);border:1px solid var(--line);
   border-radius:6px;text-align:center;font-family:var(--serif);font-size:16px;color:var(--yellow);
   line-height:1.7;overflow-x:auto}
-.nex{margin:14px 0 0;background:#0A0E15;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.nex{margin:14px 0 0;background:var(--well);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .nex .exlab{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--faint);padding:7px 13px;border-bottom:1px solid var(--line);background:#0E141E}
+  color:var(--faint);padding:7px 13px;border-bottom:1px solid var(--line);background:var(--well2)}
 .nex pre{margin:0;border:0;border-radius:0;background:none;font-size:12.4px;line-height:1.6;
-  color:#C9D2E0;padding:13px 15px}
-.nfig{margin:14px 0 0;display:flex;justify-content:center;background:#0A0E15;
+  color:var(--well-ink);padding:13px 15px}
+.nfig{margin:14px 0 0;display:flex;justify-content:center;background:var(--well);
   border:1px solid var(--line);border-radius:6px;padding:14px 10px}
 .nfig svg{width:100%;max-width:440px;height:auto;display:block}
 .see{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
@@ -141,7 +152,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
   color:var(--faint)}
 .see button{background:none;border:1px solid var(--line);border-radius:99px;padding:3px 11px;
   font-family:var(--mono);font-size:11px;color:var(--cyan);transition:.14s}
-.see button:hover{border-color:var(--cyan);background:#0E2226}
+.see button:hover{border-color:var(--cyan);background:var(--tint-acc)}
 
 /* ---------- quiz ---------- */
 .quiz{display:grid;gap:12px;max-width:760px}
@@ -154,9 +165,9 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
   padding:9px 13px;color:var(--dim);font-size:13.5px;transition:.14s}
 .choices button:hover:not(:disabled){border-color:var(--faint);color:var(--chalk)}
 .choices button:disabled{cursor:default}
-.choices button.good{border-color:var(--green);color:var(--green);background:#0F1D14}
-.choices button.bad{border-color:var(--red);color:var(--red);background:#1E1214}
-.why{margin-top:11px;padding:10px 13px;background:#0C1119;border-left:2px solid var(--cyan);
+.choices button.good{border-color:var(--green);color:var(--green);background:var(--tint-good)}
+.choices button.bad{border-color:var(--red);color:var(--red);background:var(--tint-bad)}
+.why{margin-top:11px;padding:10px 13px;background:var(--well);border-left:2px solid var(--cyan);
   border-radius:4px;font-size:13px;color:var(--dim)}
 .why b{color:var(--cyan);font-weight:600}
 .quizscore{font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:16px}
@@ -164,7 +175,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 /* ---------- exercises ---------- */
 .exos{display:grid;gap:12px}
 .exo{background:var(--board);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.exo.done{border-color:#2C5238}
+.exo.done{border-color:var(--done-line)}
 .exohead{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
 .exohead:hover{background:var(--board2)}
 .exoid{font-family:var(--mono);font-size:10.5px;color:var(--faint);flex:0 0 auto}
@@ -174,7 +185,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .dots i.on{background:var(--yellow)}
 .badge{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;
   border:1px solid var(--line);border-radius:99px;padding:2px 9px;color:var(--faint)}
-.exo.done .badge{border-color:#2C5238;color:var(--green)}
+.exo.done .badge{border-color:var(--done-line);color:var(--green)}
 .exobody{padding:0 18px 18px;border-top:1px solid var(--line)}
 .exobody[hidden]{display:none}
 .stmt{color:var(--dim);font-size:14px;margin:16px 0}
@@ -189,7 +200,7 @@ button{font-family:inherit;font-size:inherit;cursor:pointer}
 .given[open] summary::before{content:"▾ "}
 .given pre{margin:6px 0 0;border-left-color:var(--faint);opacity:.85}
 
-.edwrap{position:relative;border:1px solid var(--line);border-radius:6px;background:#0C1119;overflow:hidden}
+.edwrap{position:relative;border:1px solid var(--line);border-radius:6px;background:var(--well);overflow:hidden}
 .edwrap:focus-within{border-color:var(--cyan)}
 .edlabel{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--faint);padding:7px 12px;border-bottom:1px solid var(--line);background:var(--board2)}
@@ -203,13 +214,13 @@ textarea.ed:focus{outline:none}
 .btn:hover:not(:disabled){color:var(--chalk);border-color:var(--faint)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn.run{border-color:var(--cyan);color:var(--cyan)}
-.btn.run:hover:not(:disabled){background:#0E2226}
+.btn.run:hover:not(:disabled){background:var(--tint-acc)}
 .btn.ghost{background:none}
 
 .out{margin-top:13px}
 .out:empty{display:none}
 .res{display:flex;gap:9px;align-items:flex-start;font-size:13px;padding:4px 0;
-  border-bottom:1px solid #1A2230}
+  border-bottom:1px solid var(--line)}
 .res:last-child{border-bottom:0}
 .res .m{font-family:var(--mono);flex:0 0 auto;width:13px}
 .res.ok .m{color:var(--green)} .res.no .m{color:var(--red)}
@@ -218,19 +229,19 @@ textarea.ed:focus{outline:none}
 .res .e{font-family:var(--mono);font-size:11.5px;color:var(--red);display:block;margin-top:2px;
   word-break:break-word;white-space:pre-wrap}
 .summ{font-family:var(--mono);font-size:12px;padding:9px 12px;border-radius:5px;margin-bottom:10px}
-.summ.ok{background:#0F1D14;color:var(--green);border:1px solid #2C5238}
-.summ.no{background:#1E1214;color:var(--red);border:1px solid #4A2228}
+.summ.ok{background:var(--tint-good);color:var(--green);border:1px solid var(--done-line)}
+.summ.no{background:var(--tint-bad);color:var(--red);border:1px solid var(--bad-line)}
 .summ.wait{background:var(--board2);color:var(--dim);border:1px solid var(--line)}
-.trace{font-family:var(--mono);font-size:11.5px;color:var(--red);background:#150E11;border:1px solid #3A1A20;
+.trace{font-family:var(--mono);font-size:11.5px;color:var(--red);background:var(--tint-bad);border:1px solid var(--bad-line);
   border-radius:5px;padding:10px 12px;white-space:pre-wrap;overflow-x:auto;margin-bottom:10px}
-.stdout{font-family:var(--mono);font-size:11.5px;color:var(--dim);background:#0C1119;
+.stdout{font-family:var(--mono);font-size:11.5px;color:var(--dim);background:var(--well);
   border:1px solid var(--line);border-radius:5px;padding:10px 12px;white-space:pre-wrap;
   overflow-x:auto;margin-bottom:10px}
 .stdout::before{content:"sortie standard";display:block;font-size:9.5px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--faint);margin-bottom:5px}
 
-.hint{margin-top:11px;padding:10px 13px;background:#1A1608;border-left:2px solid var(--yellow);
-  border-radius:4px;font-size:13.5px;color:#E5D9AE}
+.hint{margin-top:11px;padding:10px 13px;background:var(--tint-warn);border-left:2px solid var(--yellow);
+  border-radius:4px;font-size:13.5px;color:var(--warn-ink)}
 .hint b{color:var(--yellow);font-family:var(--mono);font-size:11px;letter-spacing:.1em;
   display:block;margin-bottom:4px;text-transform:uppercase}
 .soln{margin-top:11px}
@@ -241,8 +252,8 @@ textarea.ed:focus{outline:none}
   border:1px solid var(--line);border-radius:7px;padding:9px 14px;font-family:var(--mono);
   font-size:11.5px;color:var(--dim);max-width:330px;box-shadow:0 8px 28px rgba(0,0,0,.5)}
 .pystatus b{display:block;color:var(--chalk);margin-bottom:3px;font-weight:600}
-.pystatus.ok{border-color:#2C5238} .pystatus.ok b{color:var(--green)}
-.pystatus.err{border-color:#4A2228} .pystatus.err b{color:var(--red)}
+.pystatus.ok{border-color:var(--done-line)} .pystatus.ok b{color:var(--green)}
+.pystatus.err{border-color:var(--bad-line)} .pystatus.err b{color:var(--red)}
 .dotpulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--yellow);
   margin-right:6px;animation:pulse 1.1s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
@@ -591,7 +602,8 @@ function buildRail(){
     '<div class="brand">THEG<small>théorie des graphes</small></div>' +
     '<nav class="chapters" aria-label="Chapitres"></nav>' +
     '<div class="panelbox"><h3>Progression</h3><div class="pgrid"></div>' +
-    '<div class="stat"></div><button class="linkbtn">Tout réinitialiser</button></div>';
+    '<div class="stat"></div><button class="linkbtn">Tout réinitialiser</button>' +
+    '<button type="button" class="theme-toggle" onclick="toggleSiteTheme()">Mode clair / sombre</button></div>';
   railNav  = r.querySelector(".chapters");
   railProg = r.querySelector(".pgrid");
   railStat = r.querySelector(".stat");
